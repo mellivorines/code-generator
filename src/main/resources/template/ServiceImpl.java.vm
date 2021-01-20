@@ -1,0 +1,52 @@
+package ${package}.modules.${moduleName}.service.impl;
+
+import ${package}.modules.${moduleName}.dao.${className}Mapper;
+import ${package}.modules.${moduleName}.entity.${className}Entity;
+import ${package}.modules.${moduleName}.dto.${className}DTO;
+import ${package}.modules.${moduleName}.service.${className}Service;
+import com.appiron.emm.common.service.impl.AbstractBaseServiceImpl;
+import org.springframework.stereotype.Service;
+
+import javax.xml.crypto.Data;
+import java.sql.Wrapper;
+
+/**
+ * ${comments}
+ *
+ * @author ${author}
+ * @since ${version} ${date}
+ */
+@Service
+public class ${className}ServiceImpl extends AbstractBaseServiceImpl<${className}Mapper, ${className}Entity,${className}DTO> implements ${className}Service {
+
+    @Override
+    public List<${className}Entity> getById(String id){
+        return this.list(Wrapper.<${className}Entity>.lambdaQuery.eq(${className}Entity::getId,id))
+    }
+
+    @Override
+    List<${className}Entity> getAll() {
+        return this.list();
+    }
+
+    @Override
+    boolean update(${className}Entity obj){
+        Data data = new Data();
+        obj.setUpdateTime(data);
+        return this.insert(obj)
+    }
+
+    @Override
+    boolean insert(${className}Entity obj){
+        Data data = new Data();
+        obj.setCreateTime(data);
+        obj.setUpdateTime(data);
+        return this.insert(obj)
+    }
+
+    @Override
+    boolean delete(List<String> ids){
+        return this.remove(Wrappers.<${className}Entity>lambdaQuery().eq(${className}Entity::getId, ids);
+    }
+
+}

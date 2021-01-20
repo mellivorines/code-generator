@@ -1,0 +1,46 @@
+package ${package}.modules.${moduleName}.entity;
+
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.FieldStrategy;
+import lombok.Data;
+import lombok.ToString;
+import lombok.experimental.Accessors;
+import com.appiron.emm.common.entity.BaseEntity;
+#if(${pk})
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+#end
+
+#if(${hasBigDecimal})
+import java.math.BigDecimal;
+#end
+#if(${hasTime})
+import java.sql.Time;
+#end
+import java.util.Date;
+import java.io.Serializable;
+
+/**
+ * ${comments}
+ *
+ * @author ${author}
+ * @since ${version} ${date}
+ */
+@Data
+@ToString
+@Accessors(chain = true)
+//@EqualsAndHashCode(callSuper=false)
+@TableName("${tableName}")
+public class ${className}Entity #if($pk && $pk.columnName == 'id') extends BaseEntity #end  implements Serializable{
+	private static final long serialVersionUID = 1L;
+#foreach ($column in $columns)
+#if(!$pk || $pk.columnName != 'id' || ($column.columnName != 'id' && $column.columnName != 'create_time' && $column.columnName != 'update_time'))
+    /**
+     * $column.comments
+     */
+    @TableField(updateStrategy = FieldStrategy.NOT_NULL)
+	private $column.attrType $column.attrname;
+#end
+#end
+}
