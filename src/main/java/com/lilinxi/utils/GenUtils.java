@@ -155,7 +155,7 @@ public class GenUtils {
      * 表名转换成Java类名
      */
     public static String tableToJava(String tableName, String tablePrefix) {
-        if (StringUtils.isBlank(tablePrefix)) {
+        if (StringUtils.isBlank(tablePrefix)&&(tableName.contains("_"))) {
             tablePrefix = tableName.substring(0, tableName.indexOf("_"));
         }
         tableName = tableName.replaceFirst(tablePrefix, "");
