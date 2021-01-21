@@ -15,8 +15,7 @@ import java.util.concurrent.ThreadLocalRandom;
  * 优化开源项目：http://git.oschina.net/yu120/sequence
  * </p>
  *
- * @author hubin
- * @since 2016-08-18
+ * @author lilinxi lilinxi015@163.com
  */
 public class Sequence {
 

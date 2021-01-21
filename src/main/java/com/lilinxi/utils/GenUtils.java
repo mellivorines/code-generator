@@ -42,6 +42,8 @@ public class GenUtils {
         templates.add("template/RedisCacheConfig.java.vm");
         templates.add("template/MybatisPlusConfig.java.vm");
         templates.add("template/SwaggerConfig.java.vm");
+        templates.add("template/application.yml.vm");
+        templates.add("template/bootstrap.yml.vm");
         return templates;
     }
 
@@ -185,64 +187,77 @@ public class GenUtils {
      */
     public static String getFileName(String template, String className, String packageName, String moduleName) {
         String packagePath = "main" + File.separator + "java" + File.separator;
+        String utils = "main" + File.separator + "java" + File.separator;
+        String config = "main" + File.separator + "java" + File.separator;
         if (StringUtils.isNotBlank(packageName)) {
             packagePath += packageName.replace(".", File.separator) + File.separator + "modules" + File.separator + moduleName + File.separator;
+            utils += packageName.replace(".", File.separator) + File.separator + "utils" + File.separator;
+            config += packageName.replace(".", File.separator) + File.separator + "config" + File.separator;
         }
-
+        /*实体类*/
         if (template.contains("Entity.java.vm")) {
             return packagePath + "entity" + File.separator + className + "Entity.java";
         }
-
+        /*Mapper*/
         if (template.contains("Mapper.java.vm")) {
             return packagePath + "dao" + File.separator + className + "Mapper.java";
         }
-
+        /*业务逻辑接口*/
         if (template.contains("Service.java.vm")) {
             return packagePath + "service" + File.separator + className + "Service.java";
         }
-
+        /*业务逻辑接口实现*/
         if (template.contains("ServiceImpl.java.vm")) {
             return packagePath + "service" + File.separator + "impl" + File.separator + className + "ServiceImpl.java";
         }
-
+        /*业controller接口*/
         if (template.contains("Controller.java.vm")) {
             return packagePath + "controller" + File.separator + className + "Controller.java";
         }
 
+        /*resources的mapper*/
         if (template.contains("Mapper.xml.vm")) {
             return "main" + File.separator + "resources" + File.separator + "mapper" + File.separator + moduleName + File.separator + className + "Mapper.xml";
+        }
+        /*application.yml配置文件*/
+        if (template.contains("application.yml.vm")) {
+            return "main" + File.separator + "resources" + File.separator + "mapper" + className + "application.yml";
+        }
+        /*bootstrap.yml配置文件*/
+        if (template.contains("bootstrap.yml.vm")) {
+            return "main" + File.separator + "resources" + File.separator + "mapper" + className + "bootstrap.yml.yml";
         }
 
         if (template.contains("DTO.java.vm")) {
             return packagePath + "dto" + File.separator + className + "DTO.java";
         }
-
+        /*工具类*/
         if (template.contains("CommonException.java.vm")) {
-            return packagePath + File.separator +  "CommonException.java";
+            return utils + File.separator +  "CommonException.java";
         }
 
         if (template.contains("ExceptionUtils.java.vm")) {
-            return packagePath + File.separator +  "ExceptionUtils.java";
+            return utils + File.separator +  "ExceptionUtils.java";
         }
 
         if (template.contains("R.java.vm")) {
-            return packagePath + File.separator +  "R.java";
+            return utils + File.separator +  "R.java";
         }
 
         if (template.contains("MessageUtils.java.vm")) {
-            return packagePath + File.separator +  "MessageUtils.java";
+            return utils + File.separator +  "MessageUtils.java";
         }
-
+        /*配置类*/
         if (template.contains("RedisCacheConfig.java.vm")) {
-            return packagePath + File.separator +  "RedisCacheConfig.java";
+            return config + File.separator +  "RedisCacheConfig.java";
         }
 
         if (template.contains("MybatisPlusConfig.java.vm")) {
-            return packagePath + File.separator +  "MybatisPlusConfig.java";
+            return config + File.separator +  "MybatisPlusConfig.java";
         }
 
         if (template.contains("SwaggerConfig.java.vm")) {
-            return packagePath + File.separator +  "SwaggerConfig.java";
+            return config + File.separator +  "SwaggerConfig.java";
         }
 
         return null;

@@ -1,4 +1,4 @@
-package ${package}.common.exception;
+package ${package}.exception;
 
 import com.appiron.emm.common.utils.ExceptionUtils;
 import com.appiron.emm.common.utils.MessageUtils;

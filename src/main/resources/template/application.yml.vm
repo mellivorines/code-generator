@@ -1,0 +1,25 @@
+server:
+  port: 8000
+  servlet:
+    context-path: /${moduleName}
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    #    MySQL配置
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://123.57.217.240:3306/${moduleName}?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
+    username: root
+    password: 123456
+    #oracle配置
+    #    driverClassName: oracle.jdbc.OracleDriver
+    #    url: jdbc:oracle:thin:@localhost:1521:orcl
+    #    username: app
+    #    password: jq123
+    #PostgreSQL配置
+    #    driverClassName: org.postgresql.Driver
+    #    url: jdbc:postgresql://123.57.217.240:5432/emm_manager
+    #    username: root
+    #    password: 123456
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
