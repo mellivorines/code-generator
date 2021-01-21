@@ -1,0 +1,76 @@
+package ${package}.config;
+
+import io.swagger.annotations.ApiOperation;
+import lombok.Data;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import springfox.documentation.builders.ApiInfoBuilder;
+import springfox.documentation.builders.PathSelectors;
+import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.oas.annotations.EnableOpenApi;
+import springfox.documentation.service.ApiInfo;
+import springfox.documentation.service.Contact;
+import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spring.web.plugins.Docket;
+
+/**
+ *  Swagger配置
+ *
+ * @author ${author}
+ * @since ${version} ${date}
+ */
+@EnableOpenApi
+@Configuration
+public class SwaggerConfig implements WebMvcConfigurer {
+
+
+    @Autowired
+    private SwaggerProperties properties;
+
+    /**
+     * 构建api
+     *
+     * @return
+     */
+    @Bean
+    public Docket createRestApi() {
+        return new Docket(DocumentationType.OAS_30)
+                .enable(properties.isEnable())
+                .apiInfo(apiInfo())
+                .select()
+                .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))
+                .paths(PathSelectors.any())
+                .build();
+    }
+
+    /**
+     * 生成文档摘要信息,如标题、描述、作者、版本号等
+     *
+     * @return
+     */
+    private ApiInfo apiInfo() {
+        return new ApiInfoBuilder()
+                .title(properties.getTitle())
+                .description(properties.getDescription())
+                .contact(new Contact(properties.getAuthor(), "", properties.getEmail()))
+                .version(properties.version)
+                .build();
+    }
+
+
+    @Data
+    @Component
+    @ConfigurationProperties(prefix = "swagger")
+    public static class SwaggerProperties {
+        private boolean enable;
+        private String title;
+        private String description;
+        private String author;
+        private String email;
+        private String version;
+    }
+}

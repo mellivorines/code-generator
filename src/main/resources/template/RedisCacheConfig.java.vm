@@ -1,0 +1,67 @@
+package ${package}.config;
+
+import com.google.common.collect.Maps;
+import lombok.Data;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.cache.RedisCacheConfiguration;
+import org.springframework.data.redis.cache.RedisCacheManager;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.RedisSerializationContext;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.util.CollectionUtils;
+
+import java.time.Duration;
+import java.util.Map;
+
+/**
+ * redis缓存配置
+ *
+ * @author ${author}
+ * @since ${version} ${date}
+ */
+@Configuration
+@EnableCaching
+@ConfigurationProperties(prefix = "spring.cache.emm")
+@Data
+public class RedisCacheConfig {
+
+    private static final String PREFIX_DEFAULT = "emm";
+
+    private static final String SEPARATOR = ":";
+
+    private static final int TTL_DEFAULT = 300;
+
+    private String prefix = PREFIX_DEFAULT;
+
+    private int ttl = TTL_DEFAULT;
+
+    private Map<String, Integer> kvs;
+
+    @Bean
+    public RedisCacheManager redisCacheManager(RedisTemplate redisTemplate) {
+        //默认配置
+        RedisCacheConfiguration redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()
+                .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()))
+                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer()))
+                .disableCachingNullValues().computePrefixWith((name) -> prefix + SEPARATOR + name + SEPARATOR)
+                .entryTtl(Duration.ofSeconds(ttl));
+        // 初始化缓存
+        Map<String, RedisCacheConfiguration> configMap = Maps.newHashMap();
+        if (!CollectionUtils.isEmpty(kvs)) {
+            kvs.forEach((k, v) -> configMap.put(k, redisCacheConfiguration.entryTtl(Duration.ofSeconds(v))));
+        }
+        //缓存管理器
+        RedisCacheManager redisCacheManager = RedisCacheManager.builder(redisTemplate.getConnectionFactory())
+                .cacheDefaults(redisCacheConfiguration)
+                .transactionAware()
+                .initialCacheNames(configMap.keySet())
+                .withInitialCacheConfigurations(configMap)
+                .build();
+        return redisCacheManager;
+    }
+
+}
