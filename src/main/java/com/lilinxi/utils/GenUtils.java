@@ -35,6 +35,13 @@ public class GenUtils {
         templates.add("template/Service.java.vm");
         templates.add("template/ServiceImpl.java.vm");
         templates.add("template/Controller.java.vm");
+        templates.add("template/CommonException.java.vm");
+        templates.add("template/ExceptionUtils.java.vm");
+        templates.add("template/R.java.vm");
+        templates.add("template/MessageUtils.java.vm");
+        templates.add("template/RedisCacheConfig.java.vm");
+        templates.add("template/MybatisPlusConfig.java.vm");
+        templates.add("template/SwaggerConfig.java.vm");
         return templates;
     }
 
@@ -208,6 +215,34 @@ public class GenUtils {
 
         if (template.contains("DTO.java.vm")) {
             return packagePath + "dto" + File.separator + className + "DTO.java";
+        }
+
+        if (template.contains("CommonException.java.vm")) {
+            return packagePath + File.separator +  "CommonException.java";
+        }
+
+        if (template.contains("ExceptionUtils.java.vm")) {
+            return packagePath + File.separator +  "ExceptionUtils.java";
+        }
+
+        if (template.contains("R.java.vm")) {
+            return packagePath + File.separator +  "R.java";
+        }
+
+        if (template.contains("MessageUtils.java.vm")) {
+            return packagePath + File.separator +  "MessageUtils.java";
+        }
+
+        if (template.contains("RedisCacheConfig.java.vm")) {
+            return packagePath + File.separator +  "RedisCacheConfig.java";
+        }
+
+        if (template.contains("MybatisPlusConfig.java.vm")) {
+            return packagePath + File.separator +  "MybatisPlusConfig.java";
+        }
+
+        if (template.contains("SwaggerConfig.java.vm")) {
+            return packagePath + File.separator +  "SwaggerConfig.java";
         }
 
         return null;

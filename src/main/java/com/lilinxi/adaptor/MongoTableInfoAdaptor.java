@@ -1,10 +1,7 @@
 package com.lilinxi.adaptor;
 
-
-
 import com.lilinxi.entity.mongo.MongoDefinition;
 import com.lilinxi.entity.mongo.Type;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

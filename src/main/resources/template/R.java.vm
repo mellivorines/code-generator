@@ -155,23 +155,23 @@ public class R<T> implements Serializable {
             } else if (this.getCode() != other.getCode()) {
                 return false;
             } else {
-                Object this$message = this.getMessage();
-                Object other$message = other.getMessage();
-                if (this$message == null) {
-                    if (other$message != null) {
+                Object thisMessage = this.getMessage();
+                Object otherMessage = other.getMessage();
+                if (thisMessage == null) {
+                    if (otherMessage != null) {
                         return false;
                     }
-                } else if (!this$message.equals(other$message)) {
+                } else if (!thisMessage.equals(otherMessage)) {
                     return false;
                 }
 
-                Object this$data = this.getData();
-                Object other$data = other.getData();
-                if (this$data == null) {
-                    if (other$data != null) {
+                Object data = this.getData();
+                Object otherData = other.getData();
+                if (thisData == null) {
+                    if (otherData != null) {
                         return false;
                     }
-                } else if (!this$data.equals(other$data)) {
+                } else if (!thisData.equals(otherData)) {
                     return false;
                 }
 
@@ -188,10 +188,10 @@ public class R<T> implements Serializable {
         int PRIME = true;
         int result = 1;
         int result = result * 59 + this.getCode();
-        Object $message = this.getMessage();
-        result = result * 59 + ($message == null ? 43 : $message.hashCode());
-        Object $data = this.getData();
-        result = result * 59 + ($data == null ? 43 : $data.hashCode());
+        Object message = this.getMessage();
+        result = result * 59 + (message == null ? 43 : message.hashCode());
+        Object data = this.getData();
+        result = result * 59 + (data == null ? 43 : data.hashCode());
         return result;
     }
 

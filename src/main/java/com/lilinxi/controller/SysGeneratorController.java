@@ -43,7 +43,6 @@ public class SysGeneratorController {
     @RequestMapping("/code")
     public void code(String tables, HttpServletResponse response) throws IOException {
         byte[] data = sysGeneratorService.generatorCode(tables.split(","));
-
         response.reset();
         response.setHeader("Content-Disposition", "attachment; filename=\"package.zip\"");
         response.addHeader("Content-Length", "" + data.length);
