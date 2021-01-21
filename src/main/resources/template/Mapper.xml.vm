@@ -8,6 +8,4 @@
         <result property="${column.attrname}" column="${column.columnName}"/>
 #end
     </resultMap>
-
-
 </mapper>

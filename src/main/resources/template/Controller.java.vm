@@ -39,7 +39,7 @@ public class ${className}Controller {
         return R.success(${classname}Service.getById(id));
     }
 
-    @ApiOperation("获取所以数据详情")
+    @ApiOperation("获取所有数据详情")
     @PostMapping("/getAll")
     public R<${className}Entity> get(){
         return R.success(${classname}Service.getAll());
