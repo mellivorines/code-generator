@@ -43,20 +43,20 @@ public class GenUtils {
      */
     public static void generatorCode(Map<String, String> table,
                                      List<Map<String, String>> columns, ZipOutputStream zip) {
-        //配置信息
+        /*配置信息*/
         Configuration config = getConfig();
         boolean hasBigDecimal = false;
         boolean hasTime = false;
-        //表信息
+        /*表信息*/
         TableEntity tableEntity = new TableEntity();
         tableEntity.setTableName(table.get("tableName"));
         tableEntity.setComments(table.get("tableComment"));
-        //表名转换成Java类名
+        /*表名转换成Java类名*/
         String className = tableToJava(tableEntity.getTableName(), config.getString("tablePrefix"));
         tableEntity.setClassName(className);
         tableEntity.setClassname(StringUtils.uncapitalize(className));
 
-        //列信息
+        /*列信息*/
         List<ColumnEntity> columsList = new ArrayList<>();
         for (Map<String, String> column : columns) {
             ColumnEntity columnEntity = new ColumnEntity();
@@ -65,12 +65,12 @@ public class GenUtils {
             columnEntity.setComments(column.get("columnComment"));
             columnEntity.setExtra(column.get("extra"));
 
-            //列名转换成Java属性名
+            /*列名转换成Java属性名*/
             String attrName = columnToJava(columnEntity.getColumnName());
             columnEntity.setAttrName(attrName);
             columnEntity.setAttrname(StringUtils.uncapitalize(attrName));
 
-            //列的数据类型，转换成Java类型
+            /*列的数据类型，转换成Java类型*/
             String attrType = config.getString(columnEntity.getDataType(), "unknowType");
             columnEntity.setAttrType(attrType);
             if (!hasBigDecimal && attrType.equals("BigDecimal")) {
@@ -79,7 +79,7 @@ public class GenUtils {
             if (!hasTime && attrType.equals("Time")) {
                 hasTime = true;
             }
-            //是否主键
+            /*是否主键*/
             if ("PRI".equalsIgnoreCase(column.get("columnKey")) && tableEntity.getPk() == null) {
                 tableEntity.setPk(columnEntity);
             }
@@ -88,17 +88,17 @@ public class GenUtils {
         }
         tableEntity.setColumns(columsList);
 
-        //没主键，则第一个字段为主键
+        /*没主键，则第一个字段为主键*/
         if (tableEntity.getPk() == null) {
             tableEntity.setPk(tableEntity.getColumns().get(0));
         }
 
-        //设置velocity资源加载器
+        /*设置velocity资源加载器*/
         Properties prop = new Properties();
         prop.put("file.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
         Velocity.init(prop);
 
-        //封装模板数据
+        /*封装模板数据*/
         Map<String, Object> map = new HashMap<>();
         map.put("tableName", tableEntity.getTableName());
         map.put("comments", tableEntity.getComments());
@@ -123,7 +123,7 @@ public class GenUtils {
 
         VelocityContext context = new VelocityContext(map);
 
-        //获取模板列表
+        /*获取模板列表*/
         List<String> templates = getTemplates();
         for (String template : templates) {
             //渲染模板
@@ -132,7 +132,7 @@ public class GenUtils {
             tpl.merge(context, sw);
 
             try {
-                //添加到zip
+                /*添加到zip*/
                 zip.putNextEntry(new ZipEntry(getFileName(template, tableEntity.getClassName(), config.getString("package"), (String) map.get("moduleName"))));
                 IOUtils.write(sw.toString(), zip, "UTF-8");
                 IOUtils.closeQuietly(sw);

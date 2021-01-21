@@ -4,7 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * icolleague-generator
+ * code-generator
  *
  * @author lilinxi lilinxi015@163.com
  */

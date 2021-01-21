@@ -6,7 +6,7 @@ package com.lilinxi.utils;
  * 断言类
  * </p>
  *
- * @author miemie
+ * @author lilinxi lilinxi015@163.com
  * @since 2018-07-24
  */
 public final class Assert {

@@ -45,11 +45,11 @@ public class SysGeneratorService {
         ZipOutputStream zip = new ZipOutputStream(outputStream);
 
         for (String tableName : tableNames) {
-            //查询表信息
+            /*查询表信息*/
             Map<String, String> table = queryTable(tableName);
-            //查询列信息
+            /*查询列信息*/
             List<Map<String, String>> columns = queryColumns(tableName);
-            //生成代码
+            /*生成代码*/
             GenUtils.generatorCode(table, columns, zip);
         }
         IOUtils.closeQuietly(zip);

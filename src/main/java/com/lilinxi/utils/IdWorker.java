@@ -4,13 +4,9 @@ import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
- * <p>
  * 高效GUID产生算法(sequence),基于Snowflake实现64位自增ID算法。 <br>
  * 优化开源项目 http://git.oschina.net/yu120/sequence
- * </p>
- *
- * @author hubin
- * @since 2016-08-01
+ * @author lilinxi lilinxi015@163.com
  */
 public class IdWorker {
 
