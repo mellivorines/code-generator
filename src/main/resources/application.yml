@@ -2,7 +2,6 @@ server:
   port: 8000
   servlet:
     context-path: /code-generator
-
 spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
@@ -26,18 +25,12 @@ spring:
     date-format: yyyy-MM-dd HH:mm:ss
   resources:
     static-locations: classpath:/static/,classpath:/views/
-
-
 mybatis:
   mapperLocations: classpath:mapper/**/*.xml
-
-
 pagehelper:
   reasonable: true
   supportMethodsArguments: true
   params: count=countSql
-
-
 #指定数据库，可选值有【mysql、oracle、sqlserver、postgresql】
 generator:
   database: mysql
