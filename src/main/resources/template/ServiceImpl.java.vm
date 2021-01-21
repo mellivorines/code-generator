@@ -47,7 +47,7 @@ public class ${className}ServiceImpl extends AbstractBaseServiceImpl<${className
 
     @Override
     boolean delete(List<String> ids){
-        return this.remove(Wrappers.<${className}Entity>lambdaQuery().in(${className}Entity::getId, ids);
+        return this.remove(Wrappers.<${className}Entity>lambdaQuery().in(${className}Entity::getId,ids);
     }
 
 }
