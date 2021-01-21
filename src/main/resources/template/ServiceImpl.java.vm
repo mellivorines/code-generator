@@ -5,10 +5,11 @@ import ${package}.modules.${moduleName}.entity.${className}Entity;
 import ${package}.modules.${moduleName}.dto.${className}DTO;
 import ${package}.modules.${moduleName}.service.${className}Service;
 import com.appiron.emm.common.service.impl.AbstractBaseServiceImpl;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.springframework.stereotype.Service;
 import lombok.extern.slf4j.Slf4j;
-import javax.xml.crypto.Data;
-import java.sql.Wrapper;
+import java.util.Date;
+import java.util.List;
 
 /**
  * ${comments}
@@ -22,32 +23,32 @@ public class ${className}ServiceImpl extends AbstractBaseServiceImpl<${className
 
     @Override
     public List<${className}Entity> getById(String id){
-        return this.list(Wrapper.<${className}Entity>.lambdaQuery.eq(${className}Entity::getId,id))
+        return this.list(Wrappers.<${className}Entity>lambdaQuery().eq(${className}Entity::getId,id));
     }
 
     @Override
-    List<${className}Entity> getAll() {
+    public List<${className}Entity> getAll${className}() {
         return this.list();
     }
 
     @Override
-    boolean update(${className}Entity obj){
-        Data data = new Data();
-        obj.setUpdateTime(data);
-        return this.insert(obj)
+    public boolean update${className}(${className}Entity obj){
+        Date date = new Date();
+        obj.setUpdateTime(date);
+        return this.update(Wrappers.<${className}Entity>lambdaUpdate().eq(${className}Entity::getId,obj.getId()));
     }
 
     @Override
-    boolean insert(${className}Entity obj){
-        Data data = new Data();
-        obj.setCreateTime(data);
-        obj.setUpdateTime(data);
-        return this.insert(obj)
+    public boolean insert${className}(${className}Entity obj){
+        Date date = new Date();
+        obj.setCreateTime(date);
+        obj.setUpdateTime(date);
+        return this.save(obj);
     }
 
     @Override
-    boolean delete(List<String> ids){
-        return this.remove(Wrappers.<${className}Entity>lambdaQuery().in(${className}Entity::getId,ids);
+    public boolean deleteById(List<String> ids){
+        return this.remove(Wrappers.<${className}Entity>lambdaQuery().in(${className}Entity::getId,ids));
     }
 
 }

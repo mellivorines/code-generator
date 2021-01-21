@@ -15,7 +15,6 @@ import com.appiron.emm.common.validator.group.DefaultGroup;
 import com.appiron.emm.common.validator.group.UpdateGroup;
 import com.appiron.emm.common.utils.PageQuery;
 import lombok.extern.slf4j.Slf4j;
-import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -34,15 +33,25 @@ public class ${className}Controller {
 
     @ApiOperation("通过id获取数据详情")
     @PostMapping("/getById")
-    public R<List<${className}Entity>> get(@ApiParam(value = "id",required = true)@Param("id") String id){
+    public R<List<${className}Entity>> get${className}ById(@ApiParam(value = "id",required = true)@Param("id") String id){
         log.info("参数:"+id);
-        return R.success(${classname}Service.getById(id));
+        List<${className}Entity> list = ${classname}Service.getById(id);
+        R r = new R();
+        r.setCode(200);
+        r.setMessage("获取成功");
+        r.setData(list);
+        return r;
     }
 
     @ApiOperation("获取所有数据详情")
     @PostMapping("/getAll")
-    public R<${className}Entity> get(){
-        return R.success(${classname}Service.getAll());
+    public R<${className}Entity> getAll${className}(){
+        List<${className}Entity> list = ${classname}Service.getAll${className}();
+        R r = new R();
+        r.setCode(200);
+        r.setMessage("获取成功");
+        r.setData(list);
+        return r;
     }
 
     @ApiOperation("更新")
@@ -50,7 +59,7 @@ public class ${className}Controller {
     @ApiParam
     public R update(@RequestBody @Validated({UpdateGroup.class, DefaultGroup.class}) ${className}Entity obj) {
         log.info("参数:"+obj);
-        return ${classname}Service.update(obj) ? R.success("") : R.error();
+        return ${classname}Service.update${className}(obj) ? R.success("") : R.error();
     }
 
     @ApiOperation("保存")
@@ -58,7 +67,7 @@ public class ${className}Controller {
     @ApiParam
     public R save(@RequestBody @Validated({AddGroup.class, DefaultGroup.class}) ${className}Entity obj) {
         log.info("参数:"+obj);
-        return ${classname}Service.insert(obj) ? R.success("") : R.error();
+        return ${classname}Service.insert${className}(obj) ? R.success("") : R.error();
     }
 
     @ApiOperation("删除")
@@ -66,7 +75,7 @@ public class ${className}Controller {
     @ApiParam
     public R delete(@RequestBody @Validated List<String> ids) {
         log.info("参数:"+ids);
-        return ${classname}Service.delete(ids) ? R.success("") : R.error();
+        return ${classname}Service.deleteById(ids) ? R.success("") : R.error();
     }
 
     @ApiOperation("分页")

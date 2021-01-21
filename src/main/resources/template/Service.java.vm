@@ -3,6 +3,7 @@ package ${package}.modules.${moduleName}.service;
 import ${package}.modules.${moduleName}.entity.${className}Entity;
 import ${package}.modules.${moduleName}.dto.${className}DTO;
 import com.appiron.emm.common.service.IBaseService;
+import java.util.List;
 
 /**
  * ${comments}
@@ -22,24 +23,24 @@ public interface ${className}Service extends IBaseService<${className}DTO,${clas
      * 获取所以数据
      * @return 返回结果
      */
-    List<${className}Entity> getAll();
+    List<${className}Entity> getAll${className}();
 
     /**
      * 更新数据
      * @param obj 更新对象
      * @return 返回更新结果
      */
-    boolean update(${className}Entity obj);
+    boolean update${className}(${className}Entity obj);
     /**
      * 保存数据
      * @param obj 更新对象
      * @return 返回保存结果
      */
-    boolean insert(${className}Entity obj);
+    boolean insert${className}(${className}Entity obj);
     /**
      * 根据id删除数据
      * @param ids 主键id集合
      * @return 返回删除结果
      */
-    boolean delete(List<String> ids);
+    boolean deleteById(List<String> ids);
 }
