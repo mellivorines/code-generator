@@ -1,0 +1,108 @@
+package ${package}.common.exception;
+
+import com.appiron.emm.common.utils.ExceptionUtils;
+import com.appiron.emm.common.utils.MessageUtils;
+import com.appiron.emm.common.utils.R;
+import javax.annotation.Nullable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.util.StringUtils;
+/**
+ * ${comments}
+ *
+ * @author ${author}
+ * @since ${version} ${date}
+ */
+public class CommonException extends RuntimeException {
+    private static final Logger log = LoggerFactory.getLogger(CommonException.class);
+    private int code;
+    private String message;
+
+    public CommonException() {
+        this(1005);
+    }
+
+    public CommonException(int code) {
+        this("", code);
+    }
+
+    public CommonException(int code, Throwable throwable) {
+        super(throwable);
+        this.code = code;
+        this.message = MessageUtils.getMessage(this.code);
+    }
+
+    public CommonException(int code, Object... params) {
+        this.code = code;
+        this.message = MessageUtils.getMessage(this.code, params);
+    }
+
+    public CommonException(String message, int code) {
+        this.code = code;
+        if (StringUtils.hasText(message)) {
+            this.message = message;
+        } else {
+            this.message = MessageUtils.getMessage(this.code);
+        }
+
+    }
+
+    public CommonException(String message) {
+        this(message, 1005);
+    }
+
+    public void setCode(int code) {
+        this.code = code;
+
+        try {
+            this.message = MessageUtils.getMessage(code);
+        } catch (Exception var3) {
+            log.error(ExceptionUtils.getErrorStackTrace(var3));
+        }
+
+    }
+
+    public int getCode() {
+        return this.code;
+    }
+
+    public String getMessage() {
+        return this.message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public static void throwExp(int code, @Nullable Throwable throwable) {
+        throw new CommonException(code, throwable);
+    }
+
+    public static void throwExp(int code, @Nullable String message) {
+        throw new CommonException(message, code);
+    }
+
+    public static void throwExp(int code) {
+        throw new CommonException(code);
+    }
+
+    public static void throwExp(R r) {
+        throw new CommonException(r.getMessage(), r.getCode());
+    }
+
+    public static void throwExp(R r, Object... params) {
+        throw new CommonException(r.getCode(), new Object[]{String.format(r.getMessage(), params)});
+    }
+
+    public static void throwExpFormat(R r, Object... params) {
+        throw new CommonException(r.getCode(), new Object[]{String.format(r.getMessage(), params)});
+    }
+
+    public static void throwExp(int code, Object... params) {
+        throw new CommonException(code, params);
+    }
+
+    public String toString() {
+        return "CommonException(code=" + this.getCode() + ", message=" + this.getMessage() + ")";
+    }
+}

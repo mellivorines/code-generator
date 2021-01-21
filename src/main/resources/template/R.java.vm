@@ -1,0 +1,201 @@
+package ${package}.common.utils;
+import com.alibaba.fastjson.annotation.JSONField;
+import ${package}.common.exception;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.io.Serializable;
+import java.text.MessageFormat;
+import java.util.Optional;
+import java.util.function.Function;
+import java.util.function.Supplier;
+import javax.annotation.Nullable;
+
+/**
+ * ${comments}
+ *
+ * @author ${author}
+ * @since ${version} ${date}
+ */
+public class R<T> implements Serializable {
+    private int code = 1000;
+    private String message;
+    private T data;
+
+    public R() {
+    }
+
+    public R(int code) {
+        this.code = code;
+    }
+
+    public R(int code, String message) {
+        this.code = code;
+        this.message = message;
+    }
+
+    public static <T> R<T> success(T t) {
+        R r = new R();
+        r.setData(t);
+        r.setMessage(MessageUtils.getMessage(r.getCode()));
+        return r;
+    }
+
+    public static <T> R<T> error(int code) {
+        R r = new R(code);
+        r.setMessage(MessageUtils.getMessage(r.getCode()));
+        return r;
+    }
+
+    public static <T> R<T> error(int code, String message) {
+        R r = new R(code, message);
+        return r;
+    }
+
+    public static <T> R<T> error(String message) {
+        R r = new R(1005, message);
+        return r;
+    }
+
+    public static <T> R<T> error() {
+        R r = new R(1005);
+        r.setMessage(MessageUtils.getMessage(r.getCode()));
+        return r;
+    }
+
+    public R replace(Object... params) {
+        this.setMessage(MessageFormat.format(this.getMessage(), params));
+        return this;
+    }
+
+    @Nullable
+    @JsonIgnore
+    @JSONField(
+            serialize = false
+    )
+    public T get() {
+        return Optional.ofNullable(this.data).filter((d) -> {
+            return this.getCode() == 1000;
+        }).orElse((Object)null);
+    }
+
+    @JsonIgnore
+    @JSONField(
+            serialize = false
+    )
+    public Object getOrDefault(Supplier supplier) {
+        return Optional.ofNullable(this.data).filter((d) -> {
+            return this.getCode() == 1000;
+        }).orElseGet(supplier);
+    }
+
+    @JsonIgnore
+    @JSONField(
+            serialize = false
+    )
+    public T getOrThrow() {
+        return Optional.ofNullable(this.data).filter((d) -> {
+            return this.getCode() == 1000;
+        }).orElseThrow(() -> {
+            return new CommonException(this.getMessage(), this.getCode());
+        });
+    }
+
+    @JsonIgnore
+    @JSONField(
+            serialize = false
+    )
+    public <M extends CommonException> T getOrThrow(Function<R<T>, M> function) {
+        return Optional.ofNullable(this.data).filter((d) -> {
+            return this.getCode() == 1000;
+        }).orElseThrow(() -> {
+            return (CommonException)function.apply(this);
+        });
+    }
+
+    public static void throwException(int code, Object... params) {
+        CommonException.throwExp(errorWithParams(code, params));
+    }
+
+    public static R errorWithParams(int code, Object... params) {
+        return error(code).replace(params);
+    }
+
+    public int getCode() {
+        return this.code;
+    }
+
+    public String getMessage() {
+        return this.message;
+    }
+
+    public T getData() {
+        return this.data;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public void setData(T data) {
+        this.data = data;
+    }
+
+    public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        } else if (!(o instanceof R)) {
+            return false;
+        } else {
+            R<?> other = (R)o;
+            if (!other.canEqual(this)) {
+                return false;
+            } else if (this.getCode() != other.getCode()) {
+                return false;
+            } else {
+                Object this$message = this.getMessage();
+                Object other$message = other.getMessage();
+                if (this$message == null) {
+                    if (other$message != null) {
+                        return false;
+                    }
+                } else if (!this$message.equals(other$message)) {
+                    return false;
+                }
+
+                Object this$data = this.getData();
+                Object other$data = other.getData();
+                if (this$data == null) {
+                    if (other$data != null) {
+                        return false;
+                    }
+                } else if (!this$data.equals(other$data)) {
+                    return false;
+                }
+
+                return true;
+            }
+        }
+    }
+
+    protected boolean canEqual(Object other) {
+        return other instanceof R;
+    }
+
+    public int hashCode() {
+        int PRIME = true;
+        int result = 1;
+        int result = result * 59 + this.getCode();
+        Object $message = this.getMessage();
+        result = result * 59 + ($message == null ? 43 : $message.hashCode());
+        Object $data = this.getData();
+        result = result * 59 + ($data == null ? 43 : $data.hashCode());
+        return result;
+    }
+
+    public String toString() {
+        return "R(code=" + this.getCode() + ", message=" + this.getMessage() + ", data=" + this.getData() + ")";
+    }
+}

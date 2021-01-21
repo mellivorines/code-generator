@@ -1,0 +1,58 @@
+package ${package}.common.utils;
+
+import java.io.Closeable;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+/**
+ * ${comments}
+ *
+ * @author ${author}
+ * @since ${version} ${date}
+ */
+public class ExceptionUtils {
+    public ExceptionUtils() {
+    }
+
+    public static String getErrorStackTrace(Exception ex) {
+        StringWriter sw = null;
+        PrintWriter pw = null;
+
+        try {
+            sw = new StringWriter();
+            pw = new PrintWriter(sw, true);
+            ex.printStackTrace(pw);
+        } finally {
+            closeQuietly(pw);
+            closeQuietly(sw);
+        }
+
+        return sw.toString();
+    }
+
+    public static String getErrorStackTrace(Throwable ex) {
+        StringWriter sw = null;
+        PrintWriter pw = null;
+
+        try {
+            sw = new StringWriter();
+            pw = new PrintWriter(sw, true);
+            ex.printStackTrace(pw);
+        } finally {
+            closeQuietly(pw);
+            closeQuietly(sw);
+        }
+
+        return sw.toString();
+    }
+
+    public static void closeQuietly(Closeable closeable) {
+        try {
+            if (closeable != null) {
+                closeable.close();
+            }
+        } catch (IOException var2) {
+        }
+
+    }
+}
