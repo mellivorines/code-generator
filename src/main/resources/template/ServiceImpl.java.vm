@@ -6,7 +6,7 @@ import ${package}.modules.${moduleName}.dto.${className}DTO;
 import ${package}.modules.${moduleName}.service.${className}Service;
 import com.appiron.emm.common.service.impl.AbstractBaseServiceImpl;
 import org.springframework.stereotype.Service;
-
+import lombok.extern.slf4j.Slf4j;
 import javax.xml.crypto.Data;
 import java.sql.Wrapper;
 
@@ -16,6 +16,7 @@ import java.sql.Wrapper;
  * @author ${author}
  * @since ${version} ${date}
  */
+@Slf4j
 @Service
 public class ${className}ServiceImpl extends AbstractBaseServiceImpl<${className}Mapper, ${className}Entity,${className}DTO> implements ${className}Service {
 
@@ -46,7 +47,7 @@ public class ${className}ServiceImpl extends AbstractBaseServiceImpl<${className
 
     @Override
     boolean delete(List<String> ids){
-        return this.remove(Wrappers.<${className}Entity>lambdaQuery().eq(${className}Entity::getId, ids);
+        return this.remove(Wrappers.<${className}Entity>lambdaQuery().in(${className}Entity::getId, ids);
     }
 
 }

@@ -14,9 +14,7 @@ import com.appiron.emm.common.validator.group.AddGroup;
 import com.appiron.emm.common.validator.group.DefaultGroup;
 import com.appiron.emm.common.validator.group.UpdateGroup;
 import com.appiron.emm.common.utils.PageQuery;
-
-
-
+import lombok.extern.slf4j.Slf4j;
 import java.io.Serializable;
 import java.util.List;
 
@@ -26,6 +24,7 @@ import java.util.List;
  * @author ${author}
  * @since ${version} ${date}
  */
+@Slf4j
 @Api(tags="${comments}")
 @RestController
 @RequestMapping("${pathName}")
@@ -36,6 +35,7 @@ public class ${className}Controller {
     @ApiOperation("通过id获取数据详情")
     @PostMapping("/getById")
     public R<List<${className}Entity>> get(@ApiParam(value = "id",required = true)@Param("id") String id){
+        log.info("参数:"+id);
         return R.success(${classname}Service.getById(id));
     }
 
@@ -49,6 +49,7 @@ public class ${className}Controller {
     @PostMapping("update")
     @ApiParam
     public R update(@RequestBody @Validated({UpdateGroup.class, DefaultGroup.class}) ${className}Entity obj) {
+        log.info("参数:"+obj);
         return ${classname}Service.update(obj) ? R.success("") : R.error();
     }
 
@@ -56,6 +57,7 @@ public class ${className}Controller {
     @PostMapping("save")
     @ApiParam
     public R save(@RequestBody @Validated({AddGroup.class, DefaultGroup.class}) ${className}Entity obj) {
+        log.info("参数:"+obj);
         return ${classname}Service.insert(obj) ? R.success("") : R.error();
     }
 
@@ -63,6 +65,7 @@ public class ${className}Controller {
     @PostMapping("delete")
     @ApiParam
     public R delete(@RequestBody @Validated List<String> ids) {
+        log.info("参数:"+ids);
         return ${classname}Service.delete(ids) ? R.success("") : R.error();
     }
 

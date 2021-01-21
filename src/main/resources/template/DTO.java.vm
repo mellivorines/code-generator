@@ -39,4 +39,16 @@ public class ${className}DTO implements Serializable {
 
 #end
 
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("{");
+        #foreach ($column in $columns)
+            #if(!$pk || $pk.columnName != 'id' || ($column.columnName != 'id' && $column.columnName != 'create_time' && $column.columnName != 'update_time'))
+                sb.append(",\"$column.attrname:\"").append($column.attrname).append('\"');
+            #end
+        #end
+        sb.append('}');
+        return sb.toString().replace("{,","{");
+    }
+
 }
