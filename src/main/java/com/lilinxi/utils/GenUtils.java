@@ -44,6 +44,7 @@ public class GenUtils {
         templates.add("template/SwaggerConfig.java.vm");
         templates.add("template/application.yml.vm");
         templates.add("template/bootstrap.yml.vm");
+        templates.add("template/Application.java.vm");
         return templates;
     }
 
@@ -225,7 +226,7 @@ public class GenUtils {
         }
         /*bootstrap.yml配置文件*/
         if (template.contains("bootstrap.yml.vm")) {
-            return "main" + File.separator + "resources" + File.separator + "mapper" + className + "bootstrap.yml.yml";
+            return "main" + File.separator + "resources" + File.separator + "mapper" + className + "bootstrap.yml";
         }
 
         if (template.contains("DTO.java.vm")) {
@@ -258,6 +259,10 @@ public class GenUtils {
 
         if (template.contains("SwaggerConfig.java.vm")) {
             return config + File.separator +  "SwaggerConfig.java";
+        }
+        /*启动类*/
+        if (template.contains("Application.java.vm")) {
+            return packageName.replace(".", File.separator) + File.separator  +  "Application.java";
         }
 
         return null;

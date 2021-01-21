@@ -1,0 +1,31 @@
+#web监听端口
+server:
+  port: 32010
+spring:
+  application:
+    name: emm-base #应用名称
+  cloud:
+    nacos: #当前配置经测试只能放在bootstrap文件,不能没办法生效
+      config:
+        #dataId组成格式,${prefix}-${spring.profiles.active}.${file-extension}
+        server-addr: 192.168.2.171:33048 #nacos server地址
+        file-extension: yml #配置文件后缀，支持yml和properties(默认)
+        namespace: linux #命名空间id
+        group: DEFAULT_GROUP #指定配置分组,默认为DEFAULT_GROUP
+        #prefix: base #文件名前缀 -- 如果没有配置则默认为 ${spring.appliction.name}
+        shared-configs: #公共配置列表，同命名空间下不同分组内配置文件共享
+          - data-id: common-redis.yml
+            group: DEFAULT_GROUP
+            refresh: true
+          - data-id: common-application.yml
+            group: DEFAULT_GROUP
+            refresh: true
+          - data-id: emm-base-config.yml
+            group: DEFAULT_GROUP
+            refresh: true
+          - data-id: common-datasource.yml
+            group: DEFAULT_GROUP
+            refresh: true
+      discovery:
+        server-addr: 192.168.2.171:33048 #nacos server地址
+        namespace: linux #命名空间id

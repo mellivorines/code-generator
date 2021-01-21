@@ -1,13 +1,13 @@
 server:
   port: 8000
   servlet:
-    context-path: /${moduleName}
+    context-path: /macos
 spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     #    MySQL配置
     driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://123.57.217.240:3306/${moduleName}?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
+    url: jdbc:mysql://123.57.217.240:3306/nacos_config?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
     username: root
     password: 123456
     #oracle配置
