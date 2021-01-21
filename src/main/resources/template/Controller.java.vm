@@ -58,24 +58,38 @@ public class ${className}Controller {
     @PostMapping("update")
     @ApiParam
     public R update(@RequestBody @Validated({UpdateGroup.class, DefaultGroup.class}) ${className}Entity obj) {
-        log.info("参数:"+obj);
-        return ${classname}Service.update${className}(obj) ? R.success("") : R.error();
+        log.info("传入对象:"+ JSONObject.toJSONString(obj));
+        R r=new R();
+        r.setCode(200);
+        r.setMessage("更新成功!");
+        return ${classname}Service.update${className}(obj) ? r : R.error();
     }
 
     @ApiOperation("保存")
     @PostMapping("save")
     @ApiParam
     public R save(@RequestBody @Validated({AddGroup.class, DefaultGroup.class}) ${className}Entity obj) {
-        log.info("参数:"+obj);
-        return ${classname}Service.insert${className}(obj) ? R.success("") : R.error();
+        log.info("传入对象:"+ JSONObject.toJSONString(obj));
+        R r=new R();
+        r.setCode(200);
+        r.setMessage("保存成功!");
+        return ${classname}Service.insert${className}(obj) ? r: R.error();
     }
 
     @ApiOperation("删除")
     @PostMapping("delete")
     @ApiParam
     public R delete(@RequestBody @Validated List<String> ids) {
-        log.info("参数:"+ids);
-        return ${classname}Service.deleteById(ids) ? R.success("") : R.error();
+        log.info("传入对象:"+ JSONObject.toJSONString(ids));
+        R r=new R();
+        r.setCode(200);
+        if (ids.size()==0){
+            r.setMessage("参数为空!");
+            return r;
+        }else {
+            r.setMessage("删除成功!");
+            return  ${classname}Service.deleteById(ids) ? r : R.error();
+        }
     }
 
     @ApiOperation("分页")
