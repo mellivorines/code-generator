@@ -39,7 +39,7 @@ public class ${className}DTO implements Serializable {
 
 #end
 
-    @Override
+
     public String toJson() {
         final StringBuilder sb = new StringBuilder("{");
         #foreach ($column in $columns)

@@ -45,7 +45,7 @@ public class ${className}Entity #if($pk && $pk.columnName == 'id') extends BaseE
 #end
 
 
-	@Override
+
 	public String toJson() {
 		final StringBuilder sb = new StringBuilder("{");
 		#foreach ($column in $columns)
