@@ -46,7 +46,7 @@ public class ${className}Entity #if($pk && $pk.columnName == 'id') extends BaseE
 
 
 	@Override
-	public String toString() {
+	public String toJson() {
 		final StringBuilder sb = new StringBuilder("{");
 		#foreach ($column in $columns)
 			#if(!$pk || $pk.columnName != 'id' || ($column.columnName != 'id' && $column.columnName != 'create_time' && $column.columnName != 'update_time'))
