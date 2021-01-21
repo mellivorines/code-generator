@@ -5,6 +5,7 @@ import com.lilinxi.utils.RenException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
@@ -26,6 +27,8 @@ public class DbConfig {
     @Autowired
     private PostgreSQLGeneratorDao postgreSQLGeneratorDao;
 
+    private static boolean mongo = false;
+
     @Bean
     @Primary
     public GeneratorDao getGeneratorDao() {
@@ -40,5 +43,16 @@ public class DbConfig {
         } else {
             throw new RenException("不支持当前数据库：" + database);
         }
+    }
+    @Bean
+    @Primary
+    @Conditional(MongoCondition.class)
+    public GeneratorDao getMongoDBDao(MongoDBGeneratorDao mongoDBGeneratorDao) {
+        mongo = true;
+        return mongoDBGeneratorDao;
+    }
+
+    public static boolean isMongo() {
+        return mongo;
     }
 }

@@ -20,6 +20,11 @@ spring:
     #    url: jdbc:postgresql://123.57.217.240:5432/emm_manager
     #    username: root
     #    password: 123456
+    #SQLServer配置
+    #    driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    #    url: jdbc:sqlserver://192.168.10.10:1433;DatabaseName=renren_fast
+    #    username: sa
+    #    password: 123456
   jackson:
     time-zone: GMT+8
     date-format: yyyy-MM-dd HH:mm:ss
@@ -31,6 +36,14 @@ pagehelper:
   reasonable: true
   supportMethodsArguments: true
   params: count=countSql
+#mongodb:
+#  host: localhost
+#  port: 27017
+#  auth: false #是否使用密码验证
+#  username: root
+#  password: 123456
+#  source: 123456
+#  database: test
 #指定数据库，可选值有【mysql、oracle、sqlserver、postgresql】
 generator:
   database: mysql
