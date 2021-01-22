@@ -37,12 +37,41 @@ public class SysGeneratorController {
         return R.ok().put("page", pageUtil);
     }
 
+
+
     /**
-     * 生成代码
+     * 生成工程
      */
-    @RequestMapping("/code")
-    public void code(String tables, HttpServletResponse response) throws IOException {
-        byte[] data = sysGeneratorService.generatorCode(tables.split(","));
+    @RequestMapping("/codeProject")
+    public void codeProject(String tables, HttpServletResponse response) throws IOException {
+        byte[] data = sysGeneratorService.generatorProject(tables.split(","));
+        response.reset();
+        response.setHeader("Content-Disposition", "attachment; filename=\"package.zip\"");
+        response.addHeader("Content-Length", "" + data.length);
+        response.setContentType("application/octet-stream; charset=UTF-8");
+
+        IOUtils.write(data, response.getOutputStream());
+    }
+
+    /**
+     * 生成模块
+     */
+    @RequestMapping("/codeModule")
+    public void codeModule(String tables, HttpServletResponse response) throws IOException {
+        byte[] data = sysGeneratorService.generatorModule(tables.split(","));
+        response.reset();
+        response.setHeader("Content-Disposition", "attachment; filename=\"package.zip\"");
+        response.addHeader("Content-Length", "" + data.length);
+        response.setContentType("application/octet-stream; charset=UTF-8");
+
+        IOUtils.write(data, response.getOutputStream());
+    }
+    /**
+     * 生成前端
+     */
+    @RequestMapping("/codeVue")
+    public void codeVue(String tables, HttpServletResponse response) throws IOException {
+        byte[] data = sysGeneratorService.generatorVue(tables.split(","));
         response.reset();
         response.setHeader("Content-Disposition", "attachment; filename=\"package.zip\"");
         response.addHeader("Content-Length", "" + data.length);

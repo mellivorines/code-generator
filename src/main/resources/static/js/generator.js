@@ -48,13 +48,27 @@ var vm = new Vue({
                 page:1 
             }).trigger("reloadGrid");
 		},
-		generator: function() {
+		generatorProject: function() {
 			var tableNames = getSelectedRows();
 			if(tableNames == null){
 				return ;
 			}
-			location.href = "sys/generator/code?tables=" + tableNames.join();
-		}
+			location.href = "sys/generator/codeProject?tables=" + tableNames.join();
+		},
+        generatorModule: function() {
+            var tableNames = getSelectedRows();
+            if(tableNames == null){
+                return ;
+            }
+            location.href = "sys/generator/codeModule?tables=" + tableNames.join();
+        },
+        generatorVue: function() {
+            var tableNames = getSelectedRows();
+            if(tableNames == null){
+                return ;
+            }
+            location.href = "sys/generator/codeVue?tables=" + tableNames.join();
+        }
 	}
 });
 

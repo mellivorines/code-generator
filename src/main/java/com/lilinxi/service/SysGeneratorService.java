@@ -3,9 +3,7 @@ package com.lilinxi.service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.lilinxi.dao.GeneratorDao;
-import com.lilinxi.utils.GenUtils;
-import com.lilinxi.utils.PageUtils;
-import com.lilinxi.utils.Query;
+import com.lilinxi.utils.*;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,7 +38,7 @@ public class SysGeneratorService {
         return generatorDao.queryColumns(tableName);
     }
 
-    public byte[] generatorCode(String[] tableNames) {
+    public byte[] generatorProject(String[] tableNames) {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         ZipOutputStream zip = new ZipOutputStream(outputStream);
 
@@ -50,7 +48,39 @@ public class SysGeneratorService {
             /*查询列信息*/
             List<Map<String, String>> columns = queryColumns(tableName);
             /*生成代码*/
-            GenUtils.generatorCode(table, columns, zip);
+            GenProjectUtils.generatorCode(table, columns, zip);
+        }
+        IOUtils.closeQuietly(zip);
+        return outputStream.toByteArray();
+    }
+
+    public byte[] generatorModule(String[] tableNames) {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        ZipOutputStream zip = new ZipOutputStream(outputStream);
+
+        for (String tableName : tableNames) {
+            /*查询表信息*/
+            Map<String, String> table = queryTable(tableName);
+            /*查询列信息*/
+            List<Map<String, String>> columns = queryColumns(tableName);
+            /*生成代码*/
+            GenModuleUtils.generatorCode(table, columns, zip);
+        }
+        IOUtils.closeQuietly(zip);
+        return outputStream.toByteArray();
+    }
+
+    public byte[] generatorVue(String[] tableNames) {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        ZipOutputStream zip = new ZipOutputStream(outputStream);
+
+        for (String tableName : tableNames) {
+            /*查询表信息*/
+            Map<String, String> table = queryTable(tableName);
+            /*查询列信息*/
+            List<Map<String, String>> columns = queryColumns(tableName);
+            /*生成代码*/
+            GenVueUtils.generatorCode(table, columns, zip);
         }
         IOUtils.closeQuietly(zip);
         return outputStream.toByteArray();

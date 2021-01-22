@@ -24,7 +24,7 @@ import java.util.zip.ZipOutputStream;
  *
  * @author lilinxi lilinxi015@163.com
  */
-public class GenUtils {
+public class GenModuleUtils {
 
     public static List<String> getTemplates() {
         List<String> templates = new ArrayList<String>();
@@ -35,18 +35,6 @@ public class GenUtils {
         templates.add("template/Service.java.vm");
         templates.add("template/ServiceImpl.java.vm");
         templates.add("template/Controller.java.vm");
-        templates.add("template/CommonException.java.vm");
-        templates.add("template/ExceptionUtils.java.vm");
-        templates.add("template/R.java.vm");
-        templates.add("template/MessageUtils.java.vm");
-        templates.add("template/RedisCacheConfig.java.vm");
-        templates.add("template/MybatisPlusConfig.java.vm");
-        templates.add("template/SwaggerConfig.java.vm");
-        templates.add("template/application.yml.vm");
-        templates.add("template/bootstrap.yml.vm");
-        templates.add("template/Application.java.vm");
-        templates.add("template/ApplicationTest.java.vm");
-        templates.add("template/pom.xml.vm");
         return templates;
     }
 
@@ -189,14 +177,10 @@ public class GenUtils {
      * 获取文件名
      */
     public static String getFileName(String template, String className, String packageName,String project, String moduleName) {
-        String packagePath = project + File.separator +"src" + File.separator +"main" + File.separator + "java" + File.separator;
-        String utils = project+ File.separator +"src" + File.separator +"main" + File.separator + "java" + File.separator;
-        String config = project + File.separator +"src" + File.separator +"main" + File.separator + "java" + File.separator;
-        String resources = project + File.separator +"src" + File.separator +"main" + File.separator + "resources" + File.separator;
+        String packagePath = "main" + File.separator + "java" + File.separator;
+        String resources = "main" + File.separator + "resources" + File.separator;
         if (StringUtils.isNotBlank(packageName)) {
             packagePath += packageName.replace(".", File.separator) + File.separator + "modules" + File.separator + moduleName + File.separator;
-            utils += packageName.replace(".", File.separator) + File.separator + "utils" + File.separator;
-            config += packageName.replace(".", File.separator) + File.separator + "config" + File.separator;
         }
         /*实体类*/
         if (template.contains("Entity.java.vm")) {
@@ -218,63 +202,13 @@ public class GenUtils {
         if (template.contains("Controller.java.vm")) {
             return packagePath + "controller" + File.separator + className + "Controller.java";
         }
-
         /*resources的mapper*/
         if (template.contains("Mapper.xml.vm")) {
             return resources+ "mapper" + File.separator + moduleName + File.separator + className + "Mapper.xml";
         }
-        /*application.yml配置文件*/
-        if (template.contains("application.yml.vm")) {
-            return resources+ "application.yml";
-        }
-        /*bootstrap.yml配置文件*/
-        if (template.contains("bootstrap.yml.vm")) {
-            return resources+ "bootstrap.yml";
-        }
-
+        /*DTO*/
         if (template.contains("DTO.java.vm")) {
             return packagePath + "dto" + File.separator + className + "DTO.java";
-        }
-        /*工具类*/
-        if (template.contains("CommonException.java.vm")) {
-            return utils + File.separator +  "CommonException.java";
-        }
-
-        if (template.contains("ExceptionUtils.java.vm")) {
-            return utils + File.separator +  "ExceptionUtils.java";
-        }
-
-        if (template.contains("R.java.vm")) {
-            return utils + File.separator +  "R.java";
-        }
-
-        if (template.contains("MessageUtils.java.vm")) {
-            return utils + File.separator +  "MessageUtils.java";
-        }
-        /*配置类*/
-        if (template.contains("RedisCacheConfig.java.vm")) {
-            return config + File.separator +  "RedisCacheConfig.java";
-        }
-
-        if (template.contains("MybatisPlusConfig.java.vm")) {
-            return config + File.separator +  "MybatisPlusConfig.java";
-        }
-
-        if (template.contains("SwaggerConfig.java.vm")) {
-            return config + File.separator +  "SwaggerConfig.java";
-        }
-        /*启动类*/
-        if (template.contains("Application.java.vm")) {
-            return project + File.separator +"src" + File.separator +"main" + File.separator + "java" + File.separator+packageName.replace(".", File.separator) + File.separator +  "Application.java";
-        }
-        /*测试类*/
-        if (template.contains("ApplicationTest.java.vm")) {
-            return project + File.separator +"src" + File.separator +"test" + File.separator + "java" + File.separator+packageName.replace(".", File.separator) + File.separator +  "ApplicationTest.java";
-        }
-
-        /*工程的pom配置文件*/
-        if (template.contains("pom.xml.vm")) {
-            return project + File.separator +  "pom.xml";
         }
         return null;
     }
