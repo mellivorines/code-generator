@@ -45,6 +45,8 @@ public class GenUtils {
         templates.add("template/application.yml.vm");
         templates.add("template/bootstrap.yml.vm");
         templates.add("template/Application.java.vm");
+        templates.add("template/ApplicationTest.java.vm");
+        templates.add("template/pom.xml.vm");
         return templates;
     }
 
@@ -143,7 +145,7 @@ public class GenUtils {
 
             try {
                 /*添加到zip*/
-                zip.putNextEntry(new ZipEntry(getFileName(template, tableEntity.getClassName(), config.getString("package"), (String) map.get("moduleName"))));
+                zip.putNextEntry(new ZipEntry(getFileName(template, tableEntity.getClassName(), config.getString("package"),config.getString("project"), (String) map.get("moduleName"))));
                 IOUtils.write(sw.toString(), zip, "UTF-8");
                 IOUtils.closeQuietly(sw);
                 zip.closeEntry();
@@ -186,10 +188,11 @@ public class GenUtils {
     /**
      * 获取文件名
      */
-    public static String getFileName(String template, String className, String packageName, String moduleName) {
-        String packagePath = "main" + File.separator + "java" + File.separator;
-        String utils = "main" + File.separator + "java" + File.separator;
-        String config = "main" + File.separator + "java" + File.separator;
+    public static String getFileName(String template, String className, String packageName,String project, String moduleName) {
+        String packagePath = project + File.separator +"src" + File.separator +"main" + File.separator + "java" + File.separator;
+        String utils = project+ File.separator +"src" + File.separator +"main" + File.separator + "java" + File.separator;
+        String config = project + File.separator +"src" + File.separator +"main" + File.separator + "java" + File.separator;
+        String resources = project + File.separator +"src" + File.separator +"main" + File.separator + "resources" + File.separator;
         if (StringUtils.isNotBlank(packageName)) {
             packagePath += packageName.replace(".", File.separator) + File.separator + "modules" + File.separator + moduleName + File.separator;
             utils += packageName.replace(".", File.separator) + File.separator + "utils" + File.separator;
@@ -218,15 +221,15 @@ public class GenUtils {
 
         /*resources的mapper*/
         if (template.contains("Mapper.xml.vm")) {
-            return "main" + File.separator + "resources" + File.separator + "mapper" + File.separator + moduleName + File.separator + className + "Mapper.xml";
+            return resources+ "mapper" + File.separator + moduleName + File.separator + className + "Mapper.xml";
         }
         /*application.yml配置文件*/
         if (template.contains("application.yml.vm")) {
-            return "main" + File.separator + "resources" + File.separator + "mapper" + className + "application.yml";
+            return resources+ "application.yml";
         }
         /*bootstrap.yml配置文件*/
         if (template.contains("bootstrap.yml.vm")) {
-            return "main" + File.separator + "resources" + File.separator + "mapper" + className + "bootstrap.yml";
+            return resources+ "bootstrap.yml";
         }
 
         if (template.contains("DTO.java.vm")) {
@@ -262,9 +265,17 @@ public class GenUtils {
         }
         /*启动类*/
         if (template.contains("Application.java.vm")) {
-            return packageName.replace(".", File.separator) + File.separator  +  "Application.java";
+            return project + File.separator +"src" + File.separator +"main" + File.separator + "java" + File.separator+packageName.replace(".", File.separator) + File.separator +  "Application.java";
+        }
+        /*测试类*/
+        if (template.contains("ApplicationTest.java.vm")) {
+            return project + File.separator +"src" + File.separator +"test" + File.separator + "java" + File.separator+packageName.replace(".", File.separator) + File.separator +  "ApplicationTest.java";
         }
 
+        /*工程的pom配置文件*/
+        if (template.contains("pom.xml.vm")) {
+            return project + File.separator +  "pom.xml";
+        }
         return null;
     }
 }
