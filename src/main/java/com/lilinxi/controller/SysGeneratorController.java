@@ -4,6 +4,10 @@ import com.lilinxi.service.SysGeneratorService;
 import com.lilinxi.utils.PageUtils;
 import com.lilinxi.utils.Query;
 import com.lilinxi.utils.R;
+import com.lilinxi.utils.RenException;
+import org.apache.commons.configuration.Configuration;
+import org.apache.commons.configuration.ConfigurationException;
+import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,6 +30,8 @@ public class SysGeneratorController {
     @Autowired
     private SysGeneratorService sysGeneratorService;
 
+
+
     /**
      * 列表
      */
@@ -44,9 +50,11 @@ public class SysGeneratorController {
      */
     @RequestMapping("/codeProject")
     public void codeProject(String tables, HttpServletResponse response) throws IOException {
+        /*配置信息*/
+        Configuration config = getConfig();
         byte[] data = sysGeneratorService.generatorProject(tables.split(","));
         response.reset();
-        response.setHeader("Content-Disposition", "attachment; filename=\"package.zip\"");
+        response.setHeader("Content-Disposition", "attachment; filename=\""+config.getString("project")+".zip\"");
         response.addHeader("Content-Length", "" + data.length);
         response.setContentType("application/octet-stream; charset=UTF-8");
 
@@ -58,12 +66,13 @@ public class SysGeneratorController {
      */
     @RequestMapping("/codeModule")
     public void codeModule(String tables, HttpServletResponse response) throws IOException {
+        /*配置信息*/
+        Configuration config = getConfig();
         byte[] data = sysGeneratorService.generatorModule(tables.split(","));
         response.reset();
         response.setHeader("Content-Disposition", "attachment; filename=\"package.zip\"");
         response.addHeader("Content-Length", "" + data.length);
         response.setContentType("application/octet-stream; charset=UTF-8");
-
         IOUtils.write(data, response.getOutputStream());
     }
     /**
@@ -71,12 +80,25 @@ public class SysGeneratorController {
      */
     @RequestMapping("/codeVue")
     public void codeVue(String tables, HttpServletResponse response) throws IOException {
+        /*配置信息*/
+        Configuration config = getConfig();
         byte[] data = sysGeneratorService.generatorVue(tables.split(","));
         response.reset();
-        response.setHeader("Content-Disposition", "attachment; filename=\"package.zip\"");
+        response.setHeader("Content-Disposition", "attachment; filename=\"Vue.zip\"");
         response.addHeader("Content-Length", "" + data.length);
         response.setContentType("application/octet-stream; charset=UTF-8");
 
         IOUtils.write(data, response.getOutputStream());
+    }
+
+    /**
+     * 获取配置信息
+     */
+    public static Configuration getConfig() {
+        try {
+            return new PropertiesConfiguration("generator.properties");
+        } catch (ConfigurationException e) {
+            throw new RenException("获取配置文件失败，", e);
+        }
     }
 }
