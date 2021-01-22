@@ -28,13 +28,13 @@ public class GenModuleUtils {
 
     public static List<String> getTemplates() {
         List<String> templates = new ArrayList<String>();
-        templates.add("template/DTO.java.vm");
-        templates.add("template/Entity.java.vm");
-        templates.add("template/Mapper.java.vm");
-        templates.add("template/Mapper.xml.vm");
-        templates.add("template/Service.java.vm");
-        templates.add("template/ServiceImpl.java.vm");
-        templates.add("template/Controller.java.vm");
+        templates.add("template/module/DTO.java.vm");
+        templates.add("template/module/Entity.java.vm");
+        templates.add("template/module/Mapper.java.vm");
+        templates.add("template/module/Mapper.xml.vm");
+        templates.add("template/module/Service.java.vm");
+        templates.add("template/module/ServiceImpl.java.vm");
+        templates.add("template/module/Controller.java.vm");
         return templates;
     }
 

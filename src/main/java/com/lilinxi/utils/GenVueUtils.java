@@ -27,25 +27,25 @@ public class GenVueUtils {
 
     public static List<String> getTemplates() {
         List<String> templates = new ArrayList<String>();
-        templates.add("template/DTO.java.vm");
-        templates.add("template/Entity.java.vm");
-        templates.add("template/Mapper.java.vm");
-        templates.add("template/Mapper.xml.vm");
-        templates.add("template/Service.java.vm");
-        templates.add("template/ServiceImpl.java.vm");
-        templates.add("template/Controller.java.vm");
-        templates.add("template/CommonException.java.vm");
-        templates.add("template/ExceptionUtils.java.vm");
-        templates.add("template/R.java.vm");
-        templates.add("template/MessageUtils.java.vm");
-        templates.add("template/RedisCacheConfig.java.vm");
-        templates.add("template/MybatisPlusConfig.java.vm");
-        templates.add("template/SwaggerConfig.java.vm");
-        templates.add("template/application.yml.vm");
-        templates.add("template/bootstrap.yml.vm");
-        templates.add("template/Application.java.vm");
-        templates.add("template/ApplicationTest.java.vm");
-        templates.add("template/pom.xml.vm");
+        templates.add("template/module/DTO.java.vm");
+        templates.add("template/module/Entity.java.vm");
+        templates.add("template/module/Mapper.java.vm");
+        templates.add("template/module/Mapper.xml.vm");
+        templates.add("template/module/Service.java.vm");
+        templates.add("template/module/ServiceImpl.java.vm");
+        templates.add("template/module/Controller.java.vm");
+        templates.add("template/project/CommonException.java.vm");
+        templates.add("template/project/ExceptionUtils.java.vm");
+        templates.add("template/project/R.java.vm");
+        templates.add("template/project/MessageUtils.java.vm");
+        templates.add("template/project/RedisCacheConfig.java.vm");
+        templates.add("template/project/MybatisPlusConfig.java.vm");
+        templates.add("template/project/SwaggerConfig.java.vm");
+        templates.add("template/project/application.yml.vm");
+        templates.add("template/project/bootstrap.yml.vm");
+        templates.add("template/project/Application.java.vm");
+        templates.add("template/project/ApplicationTest.java.vm");
+        templates.add("template/project/pom.xml.vm");
         return templates;
     }
 
