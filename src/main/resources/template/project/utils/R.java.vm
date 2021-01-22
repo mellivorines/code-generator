@@ -1,6 +1,5 @@
 package ${package}.utils;
 import com.alibaba.fastjson.annotation.JSONField;
-import ${package}.common.exception;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.text.MessageFormat;

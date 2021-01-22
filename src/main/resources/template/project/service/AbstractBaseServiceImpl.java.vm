@@ -1,0 +1,152 @@
+package ${package}.service.impl;
+
+import ${package}.service.IBaseService;
+import ${package}.utils.BeanCopyUtils;
+import ${package}.utils.PageQuery;
+import ${package}.utils.PageResult;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.metadata.TableInfo;
+import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
+import com.baomidou.mybatisplus.core.toolkit.Assert;
+import com.baomidou.mybatisplus.core.toolkit.ReflectionKit;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.io.Serializable;
+import java.util.List;
+import java.util.Objects;
+import java.util.function.Supplier;
+
+/**
+ * CRUD基础封装
+ *
+ * @author ${author}
+ * @since ${version} ${date}
+ */
+public abstract class AbstractBaseServiceImpl<M extends BaseMapper<T>, T, D> extends ServiceImpl<M, T> implements IBaseService<D, T> {
+
+    private Class<D> dtoClz;
+
+    private Class<T> entityClz;
+
+    protected Class<D> getDTOClz() {
+        if (dtoClz == null) {
+            dtoClz = (Class<D>) ReflectionKit.getSuperClassGenericType(this.getClass(), 2);
+        }
+        return dtoClz;
+    }
+
+    protected Class<T> getEntityClz() {
+        if (entityClz == null) {
+            entityClz = currentModelClass();
+        }
+        return entityClz;
+    }
+
+    @Override
+    public D get(Serializable id) {
+        return BeanCopyUtils.copy(this.getById(id), getDTOClz());
+    }
+
+    @Override
+    public boolean update(D dto) {
+        return updateById(BeanCopyUtils.copy(dto, getEntityClz()));
+    }
+
+    @Override
+    public boolean delete(List<Serializable> ids) {
+        return removeByIds(ids);
+    }
+
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public boolean insert(D dto) {
+        Class<T> entityClz = getEntityClz();
+        T entity = BeanCopyUtils.copy(dto, entityClz);
+        boolean save = save(entity);
+        if (save) {
+            BeanCopyUtils.fill(entity, dto);
+        }
+        return save;
+    }
+
+    @Override
+    public boolean insertOrUpdate(D dto) {
+        if (null == dto) {
+            return false;
+        } else {
+            T entity = BeanCopyUtils.copy(dto, getEntityClz());
+            Class<?> cls = entity.getClass();
+            TableInfo tableInfo = TableInfoHelper.getTableInfo(cls);
+            Assert.notNull(tableInfo, "error: can not execute. because can not find cache of TableInfo for entity!", new Object[0]);
+            String keyProperty = tableInfo.getKeyProperty();
+            Assert.notEmpty(keyProperty, "error: can not execute. because can not find column for id from entity!", new Object[0]);
+            Object idVal = ReflectionKit.getFieldValue(entity, tableInfo.getKeyProperty());
+            return !StringUtils.checkValNull(idVal) && !Objects.isNull(this.getById((Serializable) idVal)) ? this.updateById(entity) : insert(dto);
+        }
+    }
+
+    @Override
+    public PageResult<D> page(PageQuery pageQuery) {
+        return page(pageQuery, () -> buildWrapper(pageQuery));
+    }
+
+    @Override
+    public <R> PageResult<R> page(PageQuery pageQuery, Class<R> targetClz) {
+        IPage<T> page = baseMapper.selectPage(buildPage(pageQuery), buildWrapper(pageQuery));
+        return new PageResult(page.getTotal(), BeanCopyUtils.copyList(page.getRecords(), targetClz));
+    }
+
+    /**
+     * 构建查询包装器
+     * <p>
+     * 重写该方法实现分页的自定义排序
+     * </p>
+     *
+     * @param query
+     * @return
+     */
+    protected LambdaQueryWrapper<T> buildWrapper(PageQuery query) {
+        return Wrappers.lambdaQuery();
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public boolean insertBatch(List<D> list) {
+        List<T> ts = BeanCopyUtils.copyList(list, getEntityClz());
+        return this.saveBatch(ts);
+    }
+
+    /**
+     * 分页构造器
+     *
+     * @param pageQuery
+     * @param supplier
+     * @return
+     */
+    protected PageResult<D> page(PageQuery pageQuery, Supplier<LambdaQueryWrapper<T>> supplier) {
+        IPage<T> page = baseMapper.selectPage(buildPage(pageQuery), supplier.get());
+        return new PageResult(page.getTotal(), BeanCopyUtils.copyList(page.getRecords(), getDTOClz()));
+    }
+
+    /**
+     * 构建分页对象
+     *
+     * @param pageQuery 分页查询参数
+     */
+    protected IPage<T> buildPage(PageQuery pageQuery) {
+        if (pageQuery.getPageNum() < 1) {
+            pageQuery.setPageNum(PageQuery.PAGE_NUM);
+        }
+        if (pageQuery.getPageSize() < 1) {
+            pageQuery.setPageSize(PageQuery.PAGE_SIZE);
+        }
+        return new Page<>(pageQuery.getPageNum(), pageQuery.getPageSize());
+    }
+}

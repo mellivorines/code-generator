@@ -1,0 +1,83 @@
+package ${package}.service;
+
+import ${package}.utils.PageQuery;
+import ${package}.utils.PageResult;
+import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.io.Serializable;
+import java.util.List;
+
+/**
+ * @author ${author}
+ * @since ${version} ${date}
+ */
+public interface IBaseService<D, T> extends IService<T> {
+
+    /**
+     * 根据主键查询
+     *
+     * @param id
+     * @return
+     */
+    D get(Serializable id);
+
+    /**
+     * 根据id更新记录
+     *
+     * @param dto
+     * @return
+     */
+    boolean update(D dto);
+
+    /**
+     * 插入记录
+     *
+     * @param dto
+     * @return
+     */
+    boolean insert(D dto);
+
+
+    /**
+     * 插入或更新
+     *
+     * @param dto
+     * @return
+     */
+    boolean insertOrUpdate(D dto);
+
+    /**
+     * 批量删除
+     *
+     * @param ids id列表
+     * @return
+     */
+    boolean delete(List<Serializable> ids);
+
+    /**
+     * 分页查询
+     *
+     * @param pageQuery 分页查询入参
+     * @return
+     */
+    PageResult<D> page(PageQuery pageQuery);
+
+
+    /**
+     * 分页查询
+     *
+     * @param pageQuery 分页查询入参
+     * @param clz       转换对象class
+     * @return
+     */
+    <R> PageResult<R> page(PageQuery pageQuery, Class<R> clz);
+
+
+    /**
+     * 批量插入或更新
+     *
+     * @param list
+     * @return
+     */
+    boolean insertBatch(List<D> list);
+}

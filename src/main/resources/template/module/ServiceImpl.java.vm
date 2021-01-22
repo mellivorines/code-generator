@@ -4,7 +4,7 @@ import ${package}.modules.${moduleName}.dao.${className}Mapper;
 import ${package}.modules.${moduleName}.entity.${className}Entity;
 import ${package}.modules.${moduleName}.dto.${className}DTO;
 import ${package}.modules.${moduleName}.service.${className}Service;
-import com.appiron.emm.common.service.impl.AbstractBaseServiceImpl;
+import ${package}.service.impl.AbstractBaseServiceImpl;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.springframework.stereotype.Service;
 import lombok.extern.slf4j.Slf4j;

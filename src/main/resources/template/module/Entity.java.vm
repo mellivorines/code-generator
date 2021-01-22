@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.annotation.FieldStrategy;
 import lombok.Data;
 import lombok.ToString;
 import lombok.experimental.Accessors;
-import com.appiron.emm.common.entity.BaseEntity;
+import ${package}.common.BaseEntity;
 #if(${pk})
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;

@@ -1,0 +1,25 @@
+package ${package}.utils;
+
+import lombok.Data;
+import lombok.experimental.Accessors;
+
+import java.io.Serializable;
+import java.util.List;
+
+/**
+ * 分页对象
+ *
+ * @author ${author}
+ * @since ${version} ${date}
+ */
+@Data
+@Accessors(chain = true)
+public class PageResult<T> implements Serializable {
+    private Long total;
+    private List<T> rows;
+
+    public PageResult(Long total, List<T> rows) {
+        this.total = total;
+        this.rows = rows;
+    }
+}

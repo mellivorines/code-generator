@@ -1,0 +1,167 @@
+package ${package}.utils;
+
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.LocaleUtils;
+
+import java.util.Arrays;
+import java.util.Base64;
+import java.util.Locale;
+
+/**
+ * @author ${author}
+ * @since ${version} ${date}
+ */
+@Slf4j
+public class StringUtils {
+
+    private static final ObjectMapper objectMapper = new ObjectMapper();
+
+    /**
+     * base64编码
+     *
+     * @param src
+     * @return
+     */
+    public static String base64Encode(String src) {
+        return Base64.getEncoder().encodeToString(src.getBytes());
+    }
+
+    /**
+     * base64解码
+     *
+     * @param src
+     * @return
+     */
+    public static String base64Decode(String src) {
+        return new String(Base64.getDecoder().decode(src));
+    }
+
+    /**
+     * 对象转json字符串
+     *
+     * @param obj
+     * @return
+     */
+    public static String objectToJsonString(Object obj) {
+        try {
+            return objectMapper.writeValueAsString(obj);
+        } catch (JsonProcessingException e) {
+            log.error(ExceptionUtils.getErrorStackTrace(e));
+        }
+        return null;
+    }
+
+    /**
+     * 字符串转json
+     *
+     * @param src 字符串
+     * @param clz 对象class
+     * @return
+     */
+    public static <T> T jsonStringToObject(String src, Class<T> clz) {
+        try {
+            return objectMapper.readValue(src, clz);
+        } catch (JsonProcessingException e) {
+            log.error(ExceptionUtils.getErrorStackTrace(e));
+        }
+        return null;
+    }
+
+    /**
+     * 对象转json字符串
+     *
+     * @param obj
+     * @return
+     */
+    public static String objectToJsonBase64String(Object obj) {
+        try {
+            return base64Encode(objectMapper.writeValueAsString(obj));
+        } catch (JsonProcessingException e) {
+            log.error(ExceptionUtils.getErrorStackTrace(e));
+        }
+        return null;
+    }
+
+    /**
+     * 字符串转json
+     *
+     * @param src 字符串
+     * @param clz 对象class
+     * @return
+     */
+    public static <T> T base64JsonStringToObject(String src, Class<T> clz) {
+        try {
+            return objectMapper.readValue(base64Decode(src), clz);
+        } catch (JsonProcessingException e) {
+            log.error(ExceptionUtils.getErrorStackTrace(e));
+        }
+        return null;
+    }
+
+
+    public static boolean isNotEmpty(String src) {
+        if (src != null && src.length() > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean isNotBlank(String src) {
+        if (!isNotEmpty(src)) {
+            return false;
+        }
+        int length = src.length();
+        for (int i = 0; i < length; ++i) {
+            if (!Character.isWhitespace(src.charAt(i))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean isAnyBlank(String... strings) {
+        if (strings == null || strings.length == 0) {
+            return true;
+        }
+        return !Arrays.stream(strings).anyMatch(StringUtils::isNotBlank);
+    }
+
+    /**
+     * 解析语言环境
+     *
+     * @param localeStr
+     * @return
+     */
+    public static Locale resolveLocale(String localeStr) {
+        String[] localArrays = localeStr.replace(".properties", "").split("_");
+        try {
+            int length = localArrays.length;
+            int maxLength = 2, maxOffset = length - 2;
+            if (localArrays[length - 1].length() == maxLength) {
+                if (maxOffset >= 0 && localArrays[maxOffset].length() == maxLength) {
+                    return LocaleUtils.toLocale(String.join("_", localArrays[maxOffset], localArrays[maxOffset + 1]));
+                }
+                return LocaleUtils.toLocale(localArrays[length - 1]);
+            }
+        } catch (Exception e) {
+        }
+        return Locale.SIMPLIFIED_CHINESE;
+    }
+
+
+    /**
+     * like参数转义%_
+     *
+     * @param likeParam 模糊搜索字符
+     */
+    public static String likeSqlEscape(String likeParam) {
+        if (org.apache.commons.lang3.StringUtils.isNotBlank(likeParam) && likeParam.length() == 1) {
+            likeParam = likeParam.replaceAll("_", "\\\\_");
+            likeParam = likeParam.replaceAll("%", "\\\\%");
+        }
+        return likeParam;
+    }
+}

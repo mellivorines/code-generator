@@ -1,0 +1,48 @@
+package ${package}.utils;
+
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * HttpServletContext工具类
+ *
+ * @author ${author}
+ * @since ${version} ${date}
+ */
+@Slf4j
+public class HttpContextUtils {
+    /**
+     * 获取当前请求上下文的request
+     *
+     * @return {@code HttpServletRequest}
+     */
+    public static HttpServletRequest getRequest() {
+        RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+        if (requestAttributes == null) {
+            return null;
+        }
+        return ((ServletRequestAttributes) requestAttributes).getRequest();
+    }
+
+    /**
+     * 获取当前请求上下文的response
+     *
+     * @return {@code HttpServletResponse}
+     */
+    public static HttpServletResponse getResponse() {
+        RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+        if (requestAttributes == null) {
+            return null;
+        }
+        return ((ServletRequestAttributes) requestAttributes).getResponse();
+    }
+
+
+
+
+}

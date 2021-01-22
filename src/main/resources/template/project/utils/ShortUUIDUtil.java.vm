@@ -1,0 +1,71 @@
+package ${package}.utils;
+
+import org.apache.commons.codec.binary.Base64;
+
+import java.util.UUID;
+
+/**
+ *
+ * @author ${author}
+ * @since ${version} ${date}
+ */
+
+public class ShortUUIDUtil {
+    /**
+     * 生成22位uuid
+     */
+    public static String gen() {
+        return UUID.randomUUID().toString().replace("-", "");
+    }
+
+    /**
+     * 把36位UUID字符串转为 22位长字符串
+     */
+    private static String shorter(String s) {
+        byte[] res = Base64.encodeBase64(asBytes(s));
+        return new String(res, 0, res.length - 2);
+    }
+
+    /**
+     * 把36位UUID字符串转为字节数组
+     */
+    private static byte[] asBytes(String id) {
+        UUID uuid = UUID.fromString(id);
+        long msb = uuid.getMostSignificantBits();
+        long lsb = uuid.getLeastSignificantBits();
+        byte[] buffer = new byte[16];
+
+        for (int i = 0; i < 8; i++) {
+            buffer[i] = (byte) (msb >>> 8 * (7 - i));
+        }
+        for (int i = 8; i < 16; i++) {
+            buffer[i] = (byte) (lsb >>> 8 * (7 - i));
+        }
+        return buffer;
+    }
+
+    /**
+     * 把22位长字符串转为 UUID36位字符串
+     */
+/*    public static String recover(String s) {
+        return toUUID(Base64.decodeBase64(s.getBytes())).toString();
+    }*/
+
+    /**
+     * 字节数组转为UUID
+     */
+/*    private static UUID toUUID(byte[] byteArray) {
+        long msb = 0;
+        long lsb = 0;
+        for (int i = 0; i < 8; i++) {
+            msb = (msb << 8) | (byteArray[i] & 0xff);
+        }
+        for (int i = 8; i < 16; i++) {
+            lsb = (lsb << 8) | (byteArray[i] & 0xff);
+        }
+        UUID result = new UUID(msb, lsb);
+
+        return result;
+    }*/
+
+}

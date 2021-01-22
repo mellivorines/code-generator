@@ -2,7 +2,7 @@ package ${package}.modules.${moduleName}.service;
 
 import ${package}.modules.${moduleName}.entity.${className}Entity;
 import ${package}.modules.${moduleName}.dto.${className}DTO;
-import com.appiron.emm.common.service.IBaseService;
+import ${package}.service.IBaseService;
 import java.util.List;
 
 /**

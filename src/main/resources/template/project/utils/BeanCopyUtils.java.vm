@@ -1,0 +1,83 @@
+package ${package}.utils;
+
+import com.baomidou.mybatisplus.core.toolkit.ReflectionKit;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.ReflectionUtils;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+/**
+ * Bean属性浅拷贝.深拷贝,考虑后续支持
+ * @author ${author}
+ * @since ${version} ${date}
+ */
+@Slf4j
+public class BeanCopyUtils {
+
+    public static <T> T copy(Object source, Class<T> target) {
+        if (source == null) {
+            return null;
+        }
+        T obj = null;
+        try {
+            obj = target.newInstance();
+            BeanUtils.copyProperties(source, obj);
+        } catch (Exception e) {
+            log.error(ExceptionUtils.getErrorStackTrace(e));
+        }
+        return obj;
+    }
+
+    public static <T> List<T> copyList(List<? extends Object> sources, Class<T> target) {
+        if (sources == null || CollectionUtils.isEmpty(sources)) {
+            return Collections.EMPTY_LIST;
+        }
+        return sources.stream().map(obj -> copy(obj, target)).collect(Collectors.toList());
+    }
+
+    /**
+     * 将源对象不为空属性填充到目标对象同名为空属性上
+     *
+     * @param
+     * @param source 源对象
+     * @param target 目标对象
+     */
+    public static void fill(Object source, Object target) {
+        List<Field> entityFields = ReflectionKit.getFieldList(source.getClass());
+        List<Field> dtoFields = ReflectionKit.getFieldList(target.getClass());
+        entityFields.stream().forEach(field -> {
+            Object value = ReflectionKit.getFieldValue(source, field.getName());
+            if (Objects.isNull(value)) {
+                return;
+            }
+            Optional<Field> find = dtoFields.stream().filter(field1 -> fieldEquls(field1, field)
+                    && ReflectionKit.getFieldValue( target, field1.getName()) == null).findAny();
+            if (find.isPresent()) {
+                Method method = ReflectionUtils.findMethod(target.getClass(), getSetMethodName(field.getName()), field.getType());
+                //method.setAccessible(true);
+                try {
+                    method.invoke(target, value);
+                } catch (Exception e) {
+                    LogUtils.error(log, "回写属性失败:{}", ExceptionUtils.getErrorStackTrace(e));
+                }
+            }
+        });
+    }
+
+    public static String getSetMethodName(final String str) {
+        return StringUtils.concatCapitalize("set", str);
+    }
+
+    public static boolean fieldEquls(Field source, Field target) {
+        return source.getName() == target.getName() && source.getType() == target.getType();
+    }
+}
