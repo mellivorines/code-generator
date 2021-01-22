@@ -1,11 +1,8 @@
 package com.lilinxi.config;
 
-
-
 import com.lilinxi.entity.mongo.MongoDefinition;
-
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.Map;
 
 /**
  * @author lilinxi lilinxi015@163.com

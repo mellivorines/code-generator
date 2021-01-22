@@ -95,7 +95,6 @@ public class GenVueUtils {
             if ("PRI".equalsIgnoreCase(column.get("columnKey")) && tableEntity.getPk() == null) {
                 tableEntity.setPk(columnEntity);
             }
-
             columsList.add(columnEntity);
         }
         tableEntity.setColumns(columsList);
