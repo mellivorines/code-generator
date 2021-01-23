@@ -1,0 +1,9 @@
+package ${package}.common.validator.group;
+/**
+ * 默认校验
+ * @author ${author}
+ * @since ${version} ${date}
+ */
+public interface DefaultGroup {
+
+}

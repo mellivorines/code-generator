@@ -28,6 +28,7 @@ public class GenProjectUtils {
 
     public static List<String> getTemplates() {
         List<String> templates = new ArrayList<String>();
+        /*module*/
         templates.add("template/module/DTO.java.vm");
         templates.add("template/module/Entity.java.vm");
         templates.add("template/module/Mapper.java.vm");
@@ -35,13 +36,35 @@ public class GenProjectUtils {
         templates.add("template/module/Service.java.vm");
         templates.add("template/module/ServiceImpl.java.vm");
         templates.add("template/module/Controller.java.vm");
+        /*common*/
+        templates.add("template/project/common/BaseEntity.java.vm");
+        templates.add("template/project/common/validator/AssertUtils.java.vm");
+        templates.add("template/project/common/validator/ValidatorUtils.java.vm");
+        templates.add("template/project/common/validator/group/AddGroup.java.vm");
+        templates.add("template/project/common/validator/group/DefaultGroup.java.vm");
+        templates.add("template/project/common/validator/group/DeleteGroup.java.vm");
+        templates.add("template/project/common/validator/group/UpdateGroup.java.vm");
+        /*exception*/
         templates.add("template/project/exception/CommonException.java.vm");
+        /*service*/
+        templates.add("template/project/service/AbstractBaseServiceImpl.java.vm");
+        templates.add("template/project/service/IBaseService.java.vm");
+        /*utils*/
         templates.add("template/project/utils/ExceptionUtils.java.vm");
-        templates.add("template/project/utils/R.java.vm");
         templates.add("template/project/utils/MessageUtils.java.vm");
+        templates.add("template/project/utils/R.java.vm");
+        templates.add("template/project/utils/PageQuery.java.vm");
+        templates.add("template/project/utils/PageResult.java.vm");
+        templates.add("template/project/utils/StringUtils.java.vm");
+        templates.add("template/project/utils/SpringContextUtils.java.vm");
+        templates.add("template/project/utils/ShortUUIDUtil.java.vm");
+        templates.add("template/project/utils/HttpContextUtils.java.vm");
+        templates.add("template/project/utils/BeanCopyUtils.java.vm");
+        /*config*/
         templates.add("template/project/config/RedisCacheConfig.java.vm");
         templates.add("template/project/config/MybatisPlusConfig.java.vm");
         templates.add("template/project/config/SwaggerConfig.java.vm");
+
         templates.add("template/project/application.yml.vm");
         templates.add("template/project/bootstrap.yml.vm");
         templates.add("template/project/Application.java.vm");
@@ -192,13 +215,23 @@ public class GenProjectUtils {
         String packagePath = project + File.separator +"src" + File.separator +"main" + File.separator + "java" + File.separator;
         String utils = project+ File.separator +"src" + File.separator +"main" + File.separator + "java" + File.separator;
         String config = project + File.separator +"src" + File.separator +"main" + File.separator + "java" + File.separator;
+        String common = project + File.separator +"src" + File.separator +"main" + File.separator + "java" + File.separator;
+        String service = project + File.separator +"src" + File.separator +"main" + File.separator + "java" + File.separator;
+        String exception = project + File.separator +"src" + File.separator +"main" + File.separator + "java" + File.separator;
         String resources = project + File.separator +"src" + File.separator +"main" + File.separator + "resources" + File.separator;
         if (StringUtils.isNotBlank(packageName)) {
             packagePath += packageName.replace(".", File.separator) + File.separator + "modules" + File.separator + moduleName + File.separator;
             utils += packageName.replace(".", File.separator) + File.separator + "utils" + File.separator;
             config += packageName.replace(".", File.separator) + File.separator + "config" + File.separator;
+            common += packageName.replace(".", File.separator) + File.separator + "common" + File.separator;
+            service += packageName.replace(".", File.separator) + File.separator + "service" + File.separator;
+            exception += packageName.replace(".", File.separator) + File.separator + "exception" + File.separator;
         }
+        //module
         /*实体类*/
+        if (template.contains("DTO.java.vm")) {
+            return packagePath + "dto" + File.separator + className + "DTO.java";
+        }
         if (template.contains("Entity.java.vm")) {
             return packagePath + "entity" + File.separator + className + "Entity.java";
         }
@@ -219,6 +252,85 @@ public class GenProjectUtils {
             return packagePath + "controller" + File.separator + className + "Controller.java";
         }
 
+        //common
+        if (template.contains("BaseEntity.java.vm")) {
+            return common + File.separator +  "BaseEntity.java";
+        }
+        if (template.contains("AssertUtils.java.vm")) {
+            return common + File.separator + "validator" + File.separator+"AssertUtils.java";
+        }
+        if (template.contains("ValidatorUtils.java.vm")) {
+            return common + File.separator + "validator" + File.separator+  "ValidatorUtils.java";
+        }
+        if (template.contains("AddGroup.java.vm")) {
+            return common + File.separator + "validator" + File.separator+"group" + File.separator+ "AddGroup.java";
+        }
+        if (template.contains("DefaultGroup.java.vm")) {
+            return common + File.separator + "validator" + File.separator+"group" + File.separator+ "DefaultGroup.java";
+        }
+        if (template.contains("DeleteGroup.java.vm")) {
+            return common + File.separator + "validator" + File.separator+"group" + File.separator+ "DeleteGroup.java";
+        }
+        if (template.contains("UpdateGroup.java.vm")) {
+            return common + File.separator + "validator" + File.separator+"group" + File.separator+ "UpdateGroup.java";
+        }
+
+        //exception
+        if (template.contains("CommonException.java.vm")) {
+            return exception + File.separator +  "CommonException.java";
+        }
+
+        //service
+        if (template.contains("AbstractBaseServiceImpl.java.vm")) {
+            return service + File.separator +  "AbstractBaseServiceImpl.java";
+        }
+        if (template.contains("IBaseService.java.vm")) {
+            return service + File.separator +  "IBaseService.java";
+        }
+
+        //utils
+        if (template.contains("ExceptionUtils.java.vm")) {
+            return utils + File.separator +  "ExceptionUtils.java";
+        }
+        if (template.contains("R.java.vm")) {
+            return utils + File.separator +  "R.java";
+        }
+        if (template.contains("MessageUtils.java.vm")) {
+            return utils + File.separator +  "MessageUtils.java";
+        }
+        if (template.contains("PageQuery.java.vm")) {
+            return utils + File.separator +  "PageQuery.java";
+        }
+        if (template.contains("PageResult.java.vm")) {
+            return utils + File.separator +  "PageResult.java";
+        }
+        if (template.contains("StringUtils.java.vm")) {
+            return utils + File.separator +  "StringUtils.java";
+        }
+        if (template.contains("SpringContextUtils.java.vm")) {
+            return utils + File.separator +  "SpringContextUtils.java";
+        }
+        if (template.contains("ShortUUIDUtil.java.vm")) {
+            return utils + File.separator +  "ShortUUIDUtil.java";
+        }
+        if (template.contains("HttpContextUtils.java.vm")) {
+            return utils + File.separator +  "HttpContextUtils.java";
+        }
+        if (template.contains("BeanCopyUtils.java.vm")) {
+            return utils + File.separator +  "BeanCopyUtils.java";
+        }
+
+        //config
+        if (template.contains("RedisCacheConfig.java.vm")) {
+            return config + File.separator +  "RedisCacheConfig.java";
+        }
+        if (template.contains("MybatisPlusConfig.java.vm")) {
+            return config + File.separator +  "MybatisPlusConfig.java";
+        }
+        if (template.contains("SwaggerConfig.java.vm")) {
+            return config + File.separator +  "SwaggerConfig.java";
+        }
+
         /*resources的mapper*/
         if (template.contains("Mapper.xml.vm")) {
             return resources+ "mapper" + File.separator + moduleName + File.separator + className + "Mapper.xml";
@@ -232,37 +344,9 @@ public class GenProjectUtils {
             return resources+ "bootstrap.yml";
         }
 
-        if (template.contains("DTO.java.vm")) {
-            return packagePath + "dto" + File.separator + className + "DTO.java";
-        }
-        /*工具类*/
-        if (template.contains("CommonException.java.vm")) {
-            return utils + File.separator +  "CommonException.java";
-        }
 
-        if (template.contains("ExceptionUtils.java.vm")) {
-            return utils + File.separator +  "ExceptionUtils.java";
-        }
 
-        if (template.contains("R.java.vm")) {
-            return utils + File.separator +  "R.java";
-        }
 
-        if (template.contains("MessageUtils.java.vm")) {
-            return utils + File.separator +  "MessageUtils.java";
-        }
-        /*配置类*/
-        if (template.contains("RedisCacheConfig.java.vm")) {
-            return config + File.separator +  "RedisCacheConfig.java";
-        }
-
-        if (template.contains("MybatisPlusConfig.java.vm")) {
-            return config + File.separator +  "MybatisPlusConfig.java";
-        }
-
-        if (template.contains("SwaggerConfig.java.vm")) {
-            return config + File.separator +  "SwaggerConfig.java";
-        }
         /*启动类*/
         if (template.contains("Application.java.vm")) {
             return project + File.separator +"src" + File.separator +"main" + File.separator + "java" + File.separator+packageName.replace(".", File.separator) + File.separator +  "Application.java";

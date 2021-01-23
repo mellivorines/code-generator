@@ -1,8 +1,8 @@
 package ${package}.modules.${moduleName}.controller;
 
-import com.appiron.emm.common.validator.group.AddGroup;
-import com.appiron.emm.common.validator.group.DefaultGroup;
-import com.appiron.emm.common.validator.group.UpdateGroup;
+import ${package}.common.validator.group.AddGroup;
+import ${package}.common.validator.group.DefaultGroup;
+import ${package}.common.validator.group.UpdateGroup;
 import ${package}.PageQuery;
 import ${package}.modules.${moduleName}.entity.${className}Entity;
 import ${package}.modules.${moduleName}.service.${className}Service;

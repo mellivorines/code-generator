@@ -1,0 +1,9 @@
+package ${package}.common.validator.group;
+/**
+ * 修改校验
+ * @author ${author}
+ * @since ${version} ${date}
+ */
+public interface UpdateGroup {
+
+}
