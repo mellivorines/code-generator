@@ -173,7 +173,7 @@ public class GenProjectUtils {
                 IOUtils.closeQuietly(sw);
                 zip.closeEntry();
             } catch (IOException e) {
-                throw new RenException("渲染模板失败，表名：" + tableEntity.getTableName(), e);
+                throw new LinXiException("渲染模板失败，表名：" + tableEntity.getTableName(), e);
             }
         }
     }
@@ -204,7 +204,7 @@ public class GenProjectUtils {
         try {
             return new PropertiesConfiguration("generator.properties");
         } catch (ConfigurationException e) {
-            throw new RenException("获取配置文件失败，", e);
+            throw new LinXiException("获取配置文件失败，", e);
         }
     }
 
@@ -212,13 +212,14 @@ public class GenProjectUtils {
      * 获取文件名
      */
     public static String getFileName(String template, String className, String packageName,String project, String moduleName) {
+        System.out.println(template);
         String packagePath = project + File.separator +"src" + File.separator +"main" + File.separator + "java" + File.separator;
-        String utils = project+ File.separator +"src" + File.separator +"main" + File.separator + "java" + File.separator;
-        String config = project + File.separator +"src" + File.separator +"main" + File.separator + "java" + File.separator;
-        String common = project + File.separator +"src" + File.separator +"main" + File.separator + "java" + File.separator;
-        String service = project + File.separator +"src" + File.separator +"main" + File.separator + "java" + File.separator;
-        String exception = project + File.separator +"src" + File.separator +"main" + File.separator + "java" + File.separator;
-        String resources = project + File.separator +"src" + File.separator +"main" + File.separator + "resources" + File.separator;
+        String utils = packagePath;
+        String config = packagePath;
+        String common = packagePath;
+        String service = packagePath;
+        String exception = packagePath;
+        String resources = packagePath;
         if (StringUtils.isNotBlank(packageName)) {
             packagePath += packageName.replace(".", File.separator) + File.separator + "modules" + File.separator + moduleName + File.separator;
             utils += packageName.replace(".", File.separator) + File.separator + "utils" + File.separator;

@@ -1,7 +1,7 @@
 package com.lilinxi.config;
 
 import com.lilinxi.dao.*;
-import com.lilinxi.utils.RenException;
+import com.lilinxi.utils.LinXiException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -41,7 +41,7 @@ public class DbConfig {
         } else if ("postgresql".equalsIgnoreCase(database)) {
             return postgreSQLGeneratorDao;
         } else {
-            throw new RenException("不支持当前数据库：" + database);
+            throw new LinXiException("不支持当前数据库：" + database);
         }
     }
     @Bean

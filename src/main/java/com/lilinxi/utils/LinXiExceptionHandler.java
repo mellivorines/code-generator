@@ -11,14 +11,14 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  * @author lilinxi lilinxi015@163.com
  */
 @RestControllerAdvice
-public class RenExceptionHandler {
+public class LinXiExceptionHandler {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
      * 处理自定义异常
      */
-    @ExceptionHandler(RenException.class)
-    public R handleRenException(RenException e) {
+    @ExceptionHandler(LinXiException.class)
+    public R handleRenException(LinXiException e) {
         R r = new R();
         r.put("code", e.getCode());
         r.put("msg", e.getMessage());

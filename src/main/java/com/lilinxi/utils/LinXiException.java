@@ -5,29 +5,29 @@ package com.lilinxi.utils;
  *
  * @author lilinxi lilinxi015@163.com
  */
-public class RenException extends RuntimeException {
+public class LinXiException extends RuntimeException {
     private static final long serialVersionUID = 1L;
 
     private String msg;
     private int code = 500;
 
-    public RenException(String msg) {
+    public LinXiException(String msg) {
         super(msg);
         this.msg = msg;
     }
 
-    public RenException(String msg, Throwable e) {
+    public LinXiException(String msg, Throwable e) {
         super(msg, e);
         this.msg = msg;
     }
 
-    public RenException(String msg, int code) {
+    public LinXiException(String msg, int code) {
         super(msg);
         this.msg = msg;
         this.code = code;
     }
 
-    public RenException(String msg, int code, Throwable e) {
+    public LinXiException(String msg, int code, Throwable e) {
         super(msg, e);
         this.msg = msg;
         this.code = code;

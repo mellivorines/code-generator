@@ -148,7 +148,7 @@ public class GenVueUtils {
                 IOUtils.closeQuietly(sw);
                 zip.closeEntry();
             } catch (IOException e) {
-                throw new RenException("渲染模板失败，表名：" + tableEntity.getTableName(), e);
+                throw new LinXiException("渲染模板失败，表名：" + tableEntity.getTableName(), e);
             }
         }
     }
@@ -179,7 +179,7 @@ public class GenVueUtils {
         try {
             return new PropertiesConfiguration("generator.properties");
         } catch (ConfigurationException e) {
-            throw new RenException("获取配置文件失败，", e);
+            throw new LinXiException("获取配置文件失败，", e);
         }
     }
 

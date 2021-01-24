@@ -4,7 +4,7 @@ import com.lilinxi.service.SysGeneratorService;
 import com.lilinxi.utils.PageUtils;
 import com.lilinxi.utils.Query;
 import com.lilinxi.utils.R;
-import com.lilinxi.utils.RenException;
+import com.lilinxi.utils.LinXiException;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
@@ -98,7 +98,7 @@ public class SysGeneratorController {
         try {
             return new PropertiesConfiguration("generator.properties");
         } catch (ConfigurationException e) {
-            throw new RenException("获取配置文件失败，", e);
+            throw new LinXiException("获取配置文件失败，", e);
         }
     }
 }
