@@ -37,7 +37,7 @@ public class GenProjectUtils {
         templates.add("template/module/ServiceImpl.java.vm");
         templates.add("template/module/Controller.java.vm");
         /*common*/
-        templates.add("template/project/common/BaseEntity.java.vm");
+//        templates.add("template/project/common/BaseEntity.java.vm");
         templates.add("template/project/common/validator/AssertUtils.java.vm");
         templates.add("template/project/common/validator/ValidatorUtils.java.vm");
         templates.add("template/project/common/validator/group/AddGroup.java.vm");
@@ -47,8 +47,8 @@ public class GenProjectUtils {
         /*exception*/
         templates.add("template/project/exception/CommonException.java.vm");
         /*service*/
-        templates.add("template/project/service/AbstractBaseServiceImpl.java.vm");
-        templates.add("template/project/service/IBaseService.java.vm");
+//        templates.add("template/project/service/AbstractBaseServiceImpl.java.vm");
+//        templates.add("template/project/service/IBaseService.java.vm");
         /*utils*/
         templates.add("template/project/utils/ExceptionUtils.java.vm");
         templates.add("template/project/utils/MessageUtils.java.vm");
@@ -219,14 +219,14 @@ public class GenProjectUtils {
         String common = packagePath;
         String service = packagePath;
         String exception = packagePath;
-        String resources = packagePath;
+        String resources = project + File.separator +"src" + File.separator +"main" + File.separator+"resources"+ File.separator;
         if (StringUtils.isNotBlank(packageName)) {
             packagePath += packageName.replace(".", File.separator) + File.separator + "modules" + File.separator + moduleName + File.separator;
-            utils += packageName.replace(".", File.separator) + File.separator + "utils" + File.separator;
-            config += packageName.replace(".", File.separator) + File.separator + "config" + File.separator;
-            common += packageName.replace(".", File.separator) + File.separator + "common" + File.separator;
-            service += packageName.replace(".", File.separator) + File.separator + "service" + File.separator;
-            exception += packageName.replace(".", File.separator) + File.separator + "exception" + File.separator;
+            utils += packageName.replace(".", File.separator) + File.separator + "utils" ;
+            config += packageName.replace(".", File.separator) + File.separator + "config" ;
+            common += packageName.replace(".", File.separator) + File.separator + "common" ;
+            service += packageName.replace(".", File.separator) + File.separator + "service" ;
+            exception += packageName.replace(".", File.separator) + File.separator + "exception" ;
         }
         //module
         /*实体类*/
@@ -344,9 +344,6 @@ public class GenProjectUtils {
         if (template.contains("bootstrap.yml.vm")) {
             return resources+ "bootstrap.yml";
         }
-
-
-
 
         /*启动类*/
         if (template.contains("Application.java.vm")) {
